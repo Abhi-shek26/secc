@@ -3,41 +3,35 @@ import { Link, useLocation } from "wouter";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { NAV_ITEMS } from "@/lib/constants";
+import { NAV_ITEMS, REGISTRATION_URL, isRegistrationAvailable } from "@/lib/constants";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [location] = useLocation();
 
+  const handleRegisterClick = () => {
+    if (isRegistrationAvailable()) {
+      window.open(REGISTRATION_URL, "_blank");
+    }
+  };
+
   return (
-    <nav className="sticky top-0 z-50 w-full bg-background border-b border-border">
-      {/* 🔑 SAME WIDTH AS PAGE CONTENT */}
+    <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border" data-testid="navigation">
       <div className="max-w-6xl mx-auto px-4">
-
-        {/* FLEX — NOT GRID */}
-        <div className="relative flex items-center min-h-16">
-
-          {/* LEFT: LOGO */}
-          <Link href="/" className="flex items-center gap-3 shrink-0">
-            <img
-              src="/favicon.png"
-              alt="SE Women's Chess Logo"
-              className="h-10 w-10 object-contain"
-            />
-
-            <span className="hidden lg:block font-semibold text-base tracking-tight whitespace-nowrap">
-              SE Women and Girls Chess Championship
-            </span>
+        <div className="flex items-center justify-between gap-4 h-16">
+          <Link href="/" className="flex items-center gap-2 flex-shrink-0" data-testid="link-home-logo">
+            <img src="/favicon.png" alt="SE Women's Chess Logo" className="h-8 w-8 object-contain" />
+            <span className="font-semibold text-lg hidden sm:block">SE Women's Chess</span>
           </Link>
 
-          {/* CENTER: NAV (ABSOLUTE CENTERED) */}
-          <div className="absolute left-1/2 -translate-x-1/2 hidden lg:flex gap-1">
+          <div className="hidden xl:flex items-center gap-0.5">
             {NAV_ITEMS.map((item) => (
               <Link key={item.href} href={item.href}>
                 <Button
                   variant={location === item.href ? "secondary" : "ghost"}
                   size="sm"
-                  className="px-3 text-sm"
+                  className="px-2.5 text-sm"
+                  data-testid={`link-nav-${item.label.toLowerCase()}`}
                 >
                   {item.label}
                 </Button>
@@ -45,12 +39,15 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* RIGHT: ACTIONS */}
-          <div className="ml-auto flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <ThemeToggle />
-
+            
             <Link href="/register">
-              <Button className="hidden md:flex">
+              <Button 
+                variant="default" 
+                className="hidden sm:flex"
+                data-testid="button-register-nav"
+              >
                 Register Now
               </Button>
             </Link>
@@ -58,17 +55,17 @@ export function Navigation() {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden"
+              className="xl:hidden"
               onClick={() => setIsOpen(!isOpen)}
+              data-testid="button-mobile-menu"
             >
               {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
           </div>
         </div>
 
-        {/* MOBILE MENU */}
         {isOpen && (
-          <div className="lg:hidden py-4 border-t border-border">
+          <div className="xl:hidden py-4 border-t border-border" data-testid="mobile-menu">
             <div className="flex flex-col gap-1">
               {NAV_ITEMS.map((item) => (
                 <Link key={item.href} href={item.href}>
@@ -76,13 +73,19 @@ export function Navigation() {
                     variant={location === item.href ? "secondary" : "ghost"}
                     className="w-full justify-start"
                     onClick={() => setIsOpen(false)}
+                    data-testid={`link-mobile-${item.label.toLowerCase()}`}
                   >
                     {item.label}
                   </Button>
                 </Link>
               ))}
               <Link href="/register">
-                <Button className="w-full mt-2">
+                <Button 
+                  variant="default" 
+                  className="w-full mt-2"
+                  onClick={() => setIsOpen(false)}
+                  data-testid="button-register-mobile"
+                >
                   Register Now
                 </Button>
               </Link>
