@@ -34,7 +34,7 @@ export default function Home() {
               }`}
             />
           ))}
-          <div className="absolute inset-0 bg-black/55" />
+          <div className="absolute inset-0 bg-black/35" />
             <div className="absolute bottom-6 right-6 z-20" data-testid="logo-badge">
               <div className="bg-white/85 dark:bg-black/70 backdrop-blur-sm p-2 rounded-lg">
                 <img

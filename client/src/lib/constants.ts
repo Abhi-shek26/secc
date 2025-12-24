@@ -120,9 +120,7 @@ export const TOURNAMENT_DATA = {
   ],
   
   coordinators: [
-    { name: "Dr. Fun Fong", phone: "(770) 316-8483" },
-    { name: "Kathy Lee", phone: "(678) 613-7777" },
-    { name: "Amrita Kumar", phone: "(404) 345-0854" }
+    { name: "Dr. Antony Joseph", phone: "+1 (770) 858-5756", role: "Technical SME" }
   ],
   
   policies: [
