@@ -16,7 +16,7 @@ export default function Contact() {
         <div className="max-w-4xl mx-auto">
           <section>
             <h2 className="text-2xl md:text-3xl font-semibold mb-6" data-testid="text-coordinators-title">
-              Tournament Contact
+              Tournament Coordinators
             </h2>
             
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
