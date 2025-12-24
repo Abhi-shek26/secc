@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { NAV_ITEMS, REGISTRATION_URL, isRegistrationAvailable } from "@/lib/constants";
 
 export function Navigation() {
@@ -38,6 +39,8 @@ export function Navigation() {
           </div>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
+            
             <Link href="/register">
               <Button 
                 variant="default" 

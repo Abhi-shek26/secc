@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  /* Light Theme (Default - inspired by ChessRegister) */
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 217 91% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 45 93% 58%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 217 91% 50%;
+
+    --radius: 0.75rem;
+    
+    /* Gradients for light theme */
+    --gradient-hero: linear-gradient(135deg, hsl(210 40% 98%) 0%, hsl(210 40% 96%) 50%, hsl(210 40% 98%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(217 91% 50%) 0%, hsl(217 91% 60%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 40% 98%) 100%);
+    
+    /* Shadows */
+    --shadow-gold: 0 10px 30px -10px hsl(217 91% 50% / 0.2);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.05);
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Status colors */
+    --status-live: 0 84% 60%;
+    --status-live-foreground: 0 0% 100%;
+    --status-upcoming: 45 93% 47%;
+    --status-upcoming-foreground: 0 0% 100%;
+    --status-ongoing: 142 71% 45%;
+    --status-ongoing-foreground: 0 0% 100%;
+    --status-completed: 215 14% 65%;
+    --status-completed-foreground: 0 0% 100%;
+    --status-draft: 217 91% 60%;
+    --status-draft-foreground: 0 0% 100%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  /* Dark Theme */
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 8% 7%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 8% 7%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 45 93% 58%;
+    --primary-foreground: 240 10% 3.9%;
+
+    --secondary: 240 5% 15%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 5% 15%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 45 93% 58%;
+    --accent-foreground: 240 10% 3.9%;
+
+    --destructive: 0 62.8% 50.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5% 20%;
+    --input: 240 5% 20%;
+    --ring: 45 93% 58%;
+    
+    /* Gradients for dark theme */
+    --gradient-hero: linear-gradient(135deg, hsl(240 10% 3.9%) 0%, hsl(240 8% 7%) 50%, hsl(240 10% 3.9%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(45 93% 58%) 0%, hsl(40 88% 52%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(240 8% 7%) 0%, hsl(240 8% 5%) 100%);
+    
+    /* Shadows */
+    --shadow-gold: 0 10px 30px -10px hsl(45 93% 58% / 0.3);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.4);
+
+    /* Status colors for dark theme */
+    --status-live: 0 84% 60%;
+    --status-live-foreground: 0 0% 100%;
+    --status-upcoming: 45 93% 58%;
+    --status-upcoming-foreground: 240 10% 3.9%;
+    --status-ongoing: 142 71% 45%;
+    --status-ongoing-foreground: 0 0% 100%;
+    --status-completed: 240 5% 45%;
+    --status-completed-foreground: 0 0% 98%;
+    --status-draft: 217 91% 60%;
+    --status-draft-foreground: 0 0% 100%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+  }
+/* ================================
+   ChatGPT-style Scrollbar
+   ================================ */
+
+/* WebKit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: hsl(220 9% 65% / 0.4); /* light mode */
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(220 9% 45% / 0.6);
+}
+
+/* Dark mode */
+.dark ::-webkit-scrollbar-thumb {
+  background-color: hsl(220 9% 70% / 0.25);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(220 9% 80% / 0.4);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(220 9% 65% / 0.4) transparent;
+}
+
+.dark * {
+  scrollbar-color: hsl(220 9% 70% / 0.25) transparent;
+}
+::-webkit-scrollbar-thumb {
+  opacity: 0;
+}
+
+*:hover::-webkit-scrollbar-thumb {
+  opacity: 1;
+}
+}
