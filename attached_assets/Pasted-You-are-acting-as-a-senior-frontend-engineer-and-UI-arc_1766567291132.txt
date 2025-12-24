@@ -1,0 +1,262 @@
+You are acting as a senior frontend engineer and UI architect with experience building professional chess tournament websites.
+
+Your task is to build a complete MVP (Minimum Viable Product) informational website for a chess championship. This website is a working prototype meant for stakeholder review — not a production platform.
+
+🎯 PRIMARY OBJECTIVE
+
+Build a mobile-first, fast, clean, and professional chess tournament website that:
+
+Clearly communicates all tournament information
+
+Follows traditional chess tournament website conventions
+
+Is easy to navigate on both desktop and mobile
+
+Is deployed and viewable via a Replit public URL
+
+The website must feel authoritative, calm, and trustworthy, not experimental or flashy.
+
+🧱 TECH STACK (STRICT — DO NOT DEVIATE)
+
+Framework: Next.js
+
+Styling: Tailwind CSS
+
+Rendering: Static pages only
+
+State management: None (not required)
+
+Backend: None
+
+Database: None
+
+Authentication: None
+
+This is a frontend-only MVP.
+
+📁 REQUIRED SITE STRUCTURE (ALL PAGES MANDATORY)
+
+Create the following routes/pages:
+
+/ → Home
+
+/info → Tournament Information
+
+/schedule → Schedule
+
+/prizes → Prizes & Awards
+
+/venue → Venue & Maps
+
+/hotel → Hotel Information
+
+/policies → Tournament Policies
+
+/sponsors → Sponsors & Partners
+
+/contact → Contact & Coordinators
+
+/register → Registration Information
+
+Every page must:
+
+Be mobile-responsive
+
+Use consistent layout and typography
+
+Be readable without zooming on phones
+
+🧭 NAVIGATION & LAYOUT RULES
+Top Navigation
+
+Fixed or sticky top navigation bar
+
+Clearly labeled links to all pages
+
+“Tournament” may be a dropdown or flat list
+
+“Register” must be visually emphasized
+
+Footer
+
+Footer must appear on every page and include:
+
+Text: “Prepared by Dr. Antony Joseph – ChessNation”
+
+Text: “Prize fund made possible through a grant from US Chess.”
+
+🔗 REGISTRATION HANDLING (CRITICAL)
+
+Define a single configuration constant:
+
+export const REGISTRATION_URL = "TBD";
+
+
+Rules:
+
+All “Register Now” buttons must reference this variable
+
+No hard-coded registration links anywhere
+
+If the value is "TBD" or empty:
+
+Display a message:
+“Registration link will be published soon.”
+
+This logic must be centralized and reusable.
+
+🏠 HOME PAGE SPECIFICATION
+
+The Home page must immediately communicate:
+
+Tournament name
+
+Tournament date
+
+Guaranteed prize fund
+
+Registration cap
+
+A large, prominent “Register Now” call-to-action
+
+The hero section must be clean, centered, and visually balanced.
+
+📄 CONTENT IMPLEMENTATION RULES
+
+All tournament content must be populated exactly as provided in the task description
+
+Do not invent or modify data
+
+Use:
+
+Tables for schedules, sections, fees, prizes
+
+Bullet points for policies
+
+Headings for clear hierarchy
+
+Content should be stored in:
+
+A constants file, OR
+
+A JSON data file
+
+This allows easy updates later.
+
+🗓️ SCHEDULE PAGE
+
+Clearly formatted timetable
+
+Logical grouping of rounds and activities
+
+Must remain readable on small screens
+
+🏆 PRIZES PAGE
+
+Cash prize breakdowns
+
+Trophy and medal information
+
+Free registration prize explanations
+
+Use structured tables where appropriate.
+
+📍 VENUE & MAPS PAGE
+
+Venue name and full address
+
+Embedded Google Maps iframe
+
+No Google Maps API key
+
+Map must load correctly on mobile.
+
+🏨 HOTEL PAGE
+
+Hotel name and address
+
+Phone number
+
+“Ask for Chess Rate” note
+
+📬 CONTACT PAGE
+
+List all coordinators and phone numbers
+
+Include a contact form stub only
+
+The form may submit nowhere
+
+Label clearly: “Contact form coming soon”
+
+🎨 DESIGN & UX GUIDELINES
+
+Mobile-first responsive layout
+
+Clean typography
+
+One primary accent color
+
+Adequate spacing
+
+No animations overload
+
+No visual clutter
+
+Design should feel:
+
+Traditional
+
+Professional
+
+Trustworthy
+
+🚫 STRICT EXCLUSIONS (DO NOT BUILD)
+
+No login or user accounts
+
+No payment system
+
+No internal registration
+
+No admin panel
+
+No live chess data
+
+No photo gallery (placeholders allowed)
+
+🔍 BASIC SEO (HOME PAGE ONLY)
+
+Meta title
+
+Meta description
+
+✅ ACCEPTANCE CRITERIA
+
+The MVP is considered complete when:
+
+The website is live on Replit
+
+All pages exist and are accessible
+
+Navigation works on desktop and mobile
+
+Register CTA appears on Home and Register page
+
+Google Map iframe loads correctly
+
+Layout does not break on small screens
+
+🧾 FINAL DELIVERABLE
+
+A working Replit project
+
+Public Replit URL
+
+Clean, readable code
+
+No unused features
+
+Prioritize clarity over complexity.
+Respect traditional chess tournament design norms.
+Build for review, not scale.
