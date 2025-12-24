@@ -20,8 +20,14 @@ export function Navigation() {
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between gap-4 h-16">
           <Link href="/" className="flex items-center gap-2 flex-shrink-0" data-testid="link-home-logo">
-            <img src="/favicon.png" alt="SE Women's Chess Logo" className="h-8 w-8 object-contain" />
-            <span className="font-semibold text-lg hidden sm:block">SE Women's Chess</span>
+            <img
+              src="/favicon.png"
+              alt="SE Women's Chess Logo"
+              className="h-8 w-8 object-contain"
+            />
+            <span className="font-semibold text-lg hidden sm:block">
+              SE Women's Chess
+            </span>
           </Link>
 
           <div className="hidden xl:flex items-center gap-0.5">

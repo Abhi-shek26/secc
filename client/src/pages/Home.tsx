@@ -34,48 +34,50 @@ export default function Home() {
               }`}
             />
           ))}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
-          
-          <div className="absolute bottom-6 right-6 z-20" data-testid="logo-badge">
-            <div className="bg-white/90 dark:bg-black/80 backdrop-blur-md p-3 rounded-md border border-white/40 dark:border-white/20 shadow-lg">
-              <img 
-                src="/favicon.png" 
-                alt="SE Women's Chess Championship Logo" 
-                className="h-12 w-12 object-contain"
-              />
+          <div className="absolute inset-0 bg-black/55" />
+            <div className="absolute bottom-6 right-6 z-20" data-testid="logo-badge">
+              <div className="bg-white/85 dark:bg-black/70 backdrop-blur-sm p-2 rounded-lg">
+                <img
+                  src="/favicon.png"
+                  alt="SE Women's Chess Championship Logo"
+                  className="h-14 w-14 md:h-16 md:w-16 object-contain"
+                />
+              </div>
             </div>
           </div>
-        </div>
         
         <div className="relative z-10 text-center px-4 py-16 max-w-4xl mx-auto">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight drop-shadow-lg" data-testid="text-hero-title">
             {TOURNAMENT_DATA.name}
           </h1>
           
-          <div className="mt-8 flex flex-wrap justify-center gap-4 md:gap-8">
-            <div className="flex items-center gap-2 text-lg text-white/90">
-              <Calendar className="h-5 w-5 text-white" />
-              <span data-testid="text-hero-date">{TOURNAMENT_DATA.date}</span>
+          <div className="mt-8 inline-flex flex-wrap justify-center gap-6 rounded-xl bg-black/40 backdrop-blur-md px-6 py-4">
+                <div className="flex items-center gap-2 text-lg text-white/90">
+                  <Calendar className="h-5 w-5" />
+                  <span>{TOURNAMENT_DATA.date}</span>
+                </div>
+                <div className="flex items-center gap-2 text-lg text-white/90">
+                  <Trophy className="h-5 w-5" />
+                  <span>{TOURNAMENT_DATA.prizeFund}</span>
+                </div>
+                <div className="flex items-center gap-2 text-lg text-white/90">
+                  <Users className="h-5 w-5" />
+                  <span>Cap: {TOURNAMENT_DATA.registrationCap} players</span>
+                </div>
+              </div>
+
+              <div className="mt-10">
+                <RegisterButton
+                  size="lg"
+                  className="text-lg px-10 py-6 font-semibold tracking-wide"
+                />
+              </div>
+
+              <p className="mt-4 text-sm text-white/80">
+                {TOURNAMENT_DATA.grantNote}
+              </p>
             </div>
-            <div className="flex items-center gap-2 text-lg text-white/90">
-              <Trophy className="h-5 w-5 text-white" />
-              <span data-testid="text-hero-prize">{TOURNAMENT_DATA.prizeFund}</span>
-            </div>
-            <div className="flex items-center gap-2 text-lg text-white/90">
-              <Users className="h-5 w-5 text-white" />
-              <span data-testid="text-hero-cap">Cap: {TOURNAMENT_DATA.registrationCap} players</span>
-            </div>
-          </div>
-          
-          <div className="mt-10">
-            <RegisterButton size="lg" className="text-lg px-8 py-6" />
-          </div>
-          
-          <p className="mt-4 text-sm text-white/80" data-testid="text-hero-grant">
-            {TOURNAMENT_DATA.grantNote}
-          </p>
-        </div>
-      </section>
+          </section>
 
       <section className="py-16 md:py-20 px-4">
         <div className="max-w-6xl mx-auto">
