@@ -3,28 +3,31 @@ import { Link, useLocation } from "wouter";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { NAV_ITEMS, REGISTRATION_URL, isRegistrationAvailable } from "@/lib/constants";
+import { NAV_ITEMS } from "@/lib/constants";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [location] = useLocation();
 
-  const handleRegisterClick = () => {
-    if (isRegistrationAvailable()) {
-      window.open(REGISTRATION_URL, "_blank");
-    }
-  };
-
   return (
-    <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border" data-testid="navigation">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex items-center justify-between gap-4 h-16">
-          <Link href="/" className="flex items-center gap-2 flex-shrink-0" data-testid="link-home-logo">
-            <img src="/favicon.png" alt="SE Women's Chess Logo" className="h-8 w-8 object-contain" />
-            <span className="font-semibold text-lg hidden sm:block">SE Women's Chess</span>
+    <nav className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur-sm border-b border-border" data-testid="navigation">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex items-center justify-between min-h-16 py-2 gap-4">
+          <Link href="/" className="flex items-center gap-3 flex-shrink-0" data-testid="link-home-logo">
+            <img
+              src="/favicon.png"
+              alt="SE Women's Chess Logo"
+              className="h-10 w-10 object-contain"
+            />
+            <span className="hidden xl:block font-semibold text-lg tracking-tight">
+              SE Women and Girls Chess Championship
+            </span>
+            <span className="hidden sm:block xl:hidden font-semibold text-base tracking-tight">
+              SE Women's Chess
+            </span>
           </Link>
 
-          <div className="hidden xl:flex items-center gap-0.5">
+          <div className="hidden lg:flex items-center gap-1">
             {NAV_ITEMS.map((item) => (
               <Link key={item.href} href={item.href}>
                 <Button
@@ -41,13 +44,9 @@ export function Navigation() {
 
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            
+
             <Link href="/register">
-              <Button 
-                variant="default" 
-                className="hidden sm:flex"
-                data-testid="button-register-nav"
-              >
+              <Button className="hidden md:flex" data-testid="button-register-nav">
                 Register Now
               </Button>
             </Link>
@@ -55,7 +54,7 @@ export function Navigation() {
             <Button
               variant="ghost"
               size="icon"
-              className="xl:hidden"
+              className="lg:hidden"
               onClick={() => setIsOpen(!isOpen)}
               data-testid="button-mobile-menu"
             >
@@ -65,7 +64,7 @@ export function Navigation() {
         </div>
 
         {isOpen && (
-          <div className="xl:hidden py-4 border-t border-border" data-testid="mobile-menu">
+          <div className="lg:hidden py-4 border-t border-border" data-testid="mobile-menu">
             <div className="flex flex-col gap-1">
               {NAV_ITEMS.map((item) => (
                 <Link key={item.href} href={item.href}>
@@ -81,8 +80,7 @@ export function Navigation() {
               ))}
               <Link href="/register">
                 <Button 
-                  variant="default" 
-                  className="w-full mt-2"
+                  className="w-full mt-2" 
                   onClick={() => setIsOpen(false)}
                   data-testid="button-register-mobile"
                 >
