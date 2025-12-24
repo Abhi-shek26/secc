@@ -2,10 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
-  overflow-x: hidden;
+html {
+  scrollbar-gutter: stable;
 }
-
 
 /* LIGHT MODE */
 :root {

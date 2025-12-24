@@ -10,31 +10,34 @@ export function Navigation() {
   const [location] = useLocation();
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur-sm border-b border-border" data-testid="navigation">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between min-h-16 py-2 gap-4">
-          <Link href="/" className="flex items-center gap-3 flex-shrink-0" data-testid="link-home-logo">
+    <nav className="sticky top-0 z-50 w-full bg-background border-b border-border">
+      {/* 🔑 SAME WIDTH AS PAGE CONTENT */}
+      <div className="max-w-6xl mx-auto px-4">
+
+        {/* FLEX — NOT GRID */}
+        <div className="relative flex items-center min-h-16">
+
+          {/* LEFT: LOGO */}
+          <Link href="/" className="flex items-center gap-3 shrink-0">
             <img
               src="/favicon.png"
               alt="SE Women's Chess Logo"
               className="h-10 w-10 object-contain"
             />
-            <span className="hidden xl:block font-semibold text-lg tracking-tight">
+
+            <span className="hidden lg:block font-semibold text-base tracking-tight whitespace-nowrap">
               SE Women and Girls Chess Championship
-            </span>
-            <span className="hidden sm:block xl:hidden font-semibold text-base tracking-tight">
-              SE Women's Chess
             </span>
           </Link>
 
-          <div className="hidden lg:flex items-center gap-1">
+          {/* CENTER: NAV (ABSOLUTE CENTERED) */}
+          <div className="absolute left-1/2 -translate-x-1/2 hidden lg:flex gap-1">
             {NAV_ITEMS.map((item) => (
               <Link key={item.href} href={item.href}>
                 <Button
                   variant={location === item.href ? "secondary" : "ghost"}
                   size="sm"
-                  className="px-2.5 text-sm"
-                  data-testid={`link-nav-${item.label.toLowerCase()}`}
+                  className="px-3 text-sm"
                 >
                   {item.label}
                 </Button>
@@ -42,11 +45,12 @@ export function Navigation() {
             ))}
           </div>
 
-          <div className="flex items-center gap-2">
+          {/* RIGHT: ACTIONS */}
+          <div className="ml-auto flex items-center gap-2">
             <ThemeToggle />
 
             <Link href="/register">
-              <Button className="hidden md:flex" data-testid="button-register-nav">
+              <Button className="hidden md:flex">
                 Register Now
               </Button>
             </Link>
@@ -56,15 +60,15 @@ export function Navigation() {
               size="icon"
               className="lg:hidden"
               onClick={() => setIsOpen(!isOpen)}
-              data-testid="button-mobile-menu"
             >
               {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
           </div>
         </div>
 
+        {/* MOBILE MENU */}
         {isOpen && (
-          <div className="lg:hidden py-4 border-t border-border" data-testid="mobile-menu">
+          <div className="lg:hidden py-4 border-t border-border">
             <div className="flex flex-col gap-1">
               {NAV_ITEMS.map((item) => (
                 <Link key={item.href} href={item.href}>
@@ -72,18 +76,13 @@ export function Navigation() {
                     variant={location === item.href ? "secondary" : "ghost"}
                     className="w-full justify-start"
                     onClick={() => setIsOpen(false)}
-                    data-testid={`link-mobile-${item.label.toLowerCase()}`}
                   >
                     {item.label}
                   </Button>
                 </Link>
               ))}
               <Link href="/register">
-                <Button 
-                  className="w-full mt-2" 
-                  onClick={() => setIsOpen(false)}
-                  data-testid="button-register-mobile"
-                >
+                <Button className="w-full mt-2">
                   Register Now
                 </Button>
               </Link>
