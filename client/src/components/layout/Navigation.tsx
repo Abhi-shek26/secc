@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Crown } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { NAV_ITEMS, REGISTRATION_URL, isRegistrationAvailable } from "@/lib/constants";
@@ -20,7 +20,7 @@ export function Navigation() {
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between gap-4 h-16">
           <Link href="/" className="flex items-center gap-2 flex-shrink-0" data-testid="link-home-logo">
-            <Crown className="h-6 w-6 text-primary" />
+            <img src="/favicon.png" alt="SE Women's Chess Logo" className="h-8 w-8 object-contain" />
             <span className="font-semibold text-lg hidden sm:block">SE Women's Chess</span>
           </Link>
 

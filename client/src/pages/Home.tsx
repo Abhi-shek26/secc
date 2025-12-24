@@ -3,29 +3,37 @@ import { RegisterButton } from "@/components/RegisterButton";
 import { TOURNAMENT_DATA } from "@/lib/constants";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, Trophy, Users, MapPin } from "lucide-react";
+import heroImage from "@assets/generated_images/women_playing_chess_tournament.png";
 
 export default function Home() {
   return (
     <Layout>
-      <section className="relative min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-accent/10">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0wIDBoMzB2MzBIMHoiIGZpbGw9InJnYmEoMCwwLDAsMC4wMikiLz48cGF0aCBkPSJNMzAgMzBoMzB2MzBIMzB6IiBmaWxsPSJyZ2JhKDAsMCwwLDAuMDIpIi8+PC9nPjwvc3ZnPg==')] opacity-50" />
+      <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src={heroImage} 
+            alt="Women and girls playing chess" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
+        </div>
         
         <div className="relative z-10 text-center px-4 py-16 max-w-4xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground leading-tight" data-testid="text-hero-title">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight drop-shadow-lg" data-testid="text-hero-title">
             {TOURNAMENT_DATA.name}
           </h1>
           
           <div className="mt-8 flex flex-wrap justify-center gap-4 md:gap-8">
-            <div className="flex items-center gap-2 text-lg text-muted-foreground">
-              <Calendar className="h-5 w-5 text-primary" />
+            <div className="flex items-center gap-2 text-lg text-white/90">
+              <Calendar className="h-5 w-5 text-white" />
               <span data-testid="text-hero-date">{TOURNAMENT_DATA.date}</span>
             </div>
-            <div className="flex items-center gap-2 text-lg text-muted-foreground">
-              <Trophy className="h-5 w-5 text-primary" />
+            <div className="flex items-center gap-2 text-lg text-white/90">
+              <Trophy className="h-5 w-5 text-white" />
               <span data-testid="text-hero-prize">{TOURNAMENT_DATA.prizeFund}</span>
             </div>
-            <div className="flex items-center gap-2 text-lg text-muted-foreground">
-              <Users className="h-5 w-5 text-primary" />
+            <div className="flex items-center gap-2 text-lg text-white/90">
+              <Users className="h-5 w-5 text-white" />
               <span data-testid="text-hero-cap">Cap: {TOURNAMENT_DATA.registrationCap} players</span>
             </div>
           </div>
@@ -34,7 +42,7 @@ export default function Home() {
             <RegisterButton size="lg" className="text-lg px-8 py-6" />
           </div>
           
-          <p className="mt-4 text-sm text-muted-foreground" data-testid="text-hero-grant">
+          <p className="mt-4 text-sm text-white/80" data-testid="text-hero-grant">
             {TOURNAMENT_DATA.grantNote}
           </p>
         </div>

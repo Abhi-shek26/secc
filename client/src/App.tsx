@@ -11,6 +11,8 @@ import Venue from "@/pages/Venue";
 import Hotel from "@/pages/Hotel";
 import Policies from "@/pages/Policies";
 import Sponsors from "@/pages/Sponsors";
+import Players from "@/pages/Players";
+import Pairings from "@/pages/Pairings";
 import Contact from "@/pages/Contact";
 import Register from "@/pages/Register";
 import NotFound from "@/pages/not-found";
@@ -26,6 +28,8 @@ function Router() {
       <Route path="/hotel" component={Hotel} />
       <Route path="/policies" component={Policies} />
       <Route path="/sponsors" component={Sponsors} />
+      <Route path="/players" component={Players} />
+      <Route path="/pairings" component={Pairings} />
       <Route path="/contact" component={Contact} />
       <Route path="/register" component={Register} />
       <Route component={NotFound} />

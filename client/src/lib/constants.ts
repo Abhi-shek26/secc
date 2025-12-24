@@ -150,8 +150,46 @@ export const NAV_ITEMS = [
   { label: "Hotel", href: "/hotel" },
   { label: "Policies", href: "/policies" },
   { label: "Sponsors", href: "/sponsors" },
+  { label: "Players", href: "/players" },
+  { label: "Pairings", href: "/pairings" },
   { label: "Contact", href: "/contact" }
 ];
+
+export const PREREGISTERED_PLAYERS = {
+  womensOpen: [
+    { name: "Jane Smith", rating: "1950/15" },
+    { name: "Maria Garcia", rating: "1820/12" },
+    { name: "Emily Chen", rating: "1785/20" },
+  ],
+  womensU1800: [
+    { name: "Sarah Johnson", rating: "1650/18" },
+    { name: "Lisa Wang", rating: "1580/10" },
+  ],
+  girlsK12: [
+    { name: "Sophia Miller", rating: "1420/8" },
+    { name: "Olivia Brown", rating: "1350/12" },
+  ],
+  girlsK8: [
+    { name: "Emma Davis", rating: "1180/6" },
+    { name: "Ava Wilson", rating: "1050/10" },
+  ],
+  girlsK5: [
+    { name: "Mia Taylor", rating: "850/5" },
+    { name: "Charlotte Anderson", rating: "780/8" },
+  ],
+  girlsK3: [
+    { name: "Amelia Thomas", rating: "550/4" },
+    { name: "Harper Jackson", rating: "420/3" },
+  ],
+  familyFriends: [
+    { name: "Robert Martinez", rating: "1200/15" },
+    { name: "David Lee", rating: "Unrated" },
+  ],
+  unrated: [
+    { name: "Jessica White", rating: "Unrated" },
+    { name: "Nicole Harris", rating: "Unrated" },
+  ],
+};
 
 export function isRegistrationAvailable(): boolean {
   return REGISTRATION_URL !== "TBD" && REGISTRATION_URL !== "";
