@@ -34,7 +34,7 @@ export default function Home() {
               }`}
             />
           ))}
-          <div className="absolute inset-0 bg-black/35" />
+          <div className="absolute inset-0 bg-black/25" />
             <div className="absolute bottom-6 right-6 z-20" data-testid="logo-badge">
               <div className="bg-white/85 dark:bg-black/70 backdrop-blur-sm p-2 rounded-lg">
                 <img
@@ -51,7 +51,7 @@ export default function Home() {
             {TOURNAMENT_DATA.name}
           </h1>
           
-          <div className="mt-8 inline-flex flex-wrap justify-center gap-6 rounded-xl bg-black/40 backdrop-blur-md px-6 py-4">
+          <div className="mt-8 inline-flex flex-wrap justify-center gap-6 rounded-xl bg-black/20 backdrop-blur-s px-6 py-4">
                 <div className="flex items-center gap-2 text-lg text-white/90">
                   <Calendar className="h-5 w-5" />
                   <span>{TOURNAMENT_DATA.date}</span>
