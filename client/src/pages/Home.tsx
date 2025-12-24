@@ -1,20 +1,39 @@
+import { useState, useEffect } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { RegisterButton } from "@/components/RegisterButton";
 import { TOURNAMENT_DATA } from "@/lib/constants";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, Trophy, Users, MapPin } from "lucide-react";
-import heroImage from "@assets/generated_images/women_playing_chess_tournament.png";
+import heroImage1 from "@assets/generated_images/women_playing_chess_tournament.png";
+import heroImage2 from "@assets/generated_images/women_chess_tournament_move.png";
+import heroImage3 from "@assets/generated_images/girl_chess_tournament_concentration.png";
+
+const heroImages = [heroImage1, heroImage2, heroImage3];
 
 export default function Home() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Layout>
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <img 
-            src={heroImage} 
-            alt="Women and girls playing chess" 
-            className="w-full h-full object-cover"
-          />
+          {heroImages.map((image, index) => (
+            <img 
+              key={index}
+              src={image} 
+              alt={`Women and girls playing chess ${index + 1}`}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                index === currentImageIndex ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          ))}
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
         </div>
         
