@@ -24,12 +24,13 @@ export function Navigation() {
             <span className="font-semibold text-lg hidden sm:block">SE Women's Chess</span>
           </Link>
 
-          <div className="hidden lg:flex items-center gap-1 flex-wrap">
+          <div className="hidden xl:flex items-center gap-0.5">
             {NAV_ITEMS.map((item) => (
               <Link key={item.href} href={item.href}>
                 <Button
                   variant={location === item.href ? "secondary" : "ghost"}
                   size="sm"
+                  className="px-2.5 text-sm"
                   data-testid={`link-nav-${item.label.toLowerCase()}`}
                 >
                   {item.label}
@@ -54,7 +55,7 @@ export function Navigation() {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden"
+              className="xl:hidden"
               onClick={() => setIsOpen(!isOpen)}
               data-testid="button-mobile-menu"
             >
@@ -64,7 +65,7 @@ export function Navigation() {
         </div>
 
         {isOpen && (
-          <div className="lg:hidden py-4 border-t border-border" data-testid="mobile-menu">
+          <div className="xl:hidden py-4 border-t border-border" data-testid="mobile-menu">
             <div className="flex flex-col gap-1">
               {NAV_ITEMS.map((item) => (
                 <Link key={item.href} href={item.href}>
