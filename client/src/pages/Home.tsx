@@ -35,6 +35,16 @@ export default function Home() {
             />
           ))}
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
+          
+          <div className="absolute bottom-6 right-6 z-20" data-testid="logo-badge">
+            <div className="bg-white/90 dark:bg-black/80 backdrop-blur-md p-3 rounded-md border border-white/40 dark:border-white/20 shadow-lg">
+              <img 
+                src="/favicon.png" 
+                alt="SE Women's Chess Championship Logo" 
+                className="h-12 w-12 object-contain"
+              />
+            </div>
+          </div>
         </div>
         
         <div className="relative z-10 text-center px-4 py-16 max-w-4xl mx-auto">
