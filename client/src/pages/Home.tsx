@@ -159,39 +159,39 @@ export default function Home() {
       </section>
 
       {/* ================= MISSION ================= */}
-      <section className="py-16 md:py-20 px-4 bg-background">
-        <div className="max-w-4xl mx-auto">
+      <section className="py-14 md:py-16 px-4 bg-background">
+        <div className="max-w-5xl mx-auto">
           <Card className="shadow-sm">
-            <CardContent className="p-8 md:p-10">
+            <CardContent className="p-6 md:p-8">
               <h2 className="text-3xl font-bold mb-6 text-center">
                 Our Mission
               </h2>
 
-              <div className="space-y-4 text-muted-foreground leading-relaxed">
+              {/* Constrain text width */}
+              <div className="max-w-3xl mx-auto space-y-4 text-muted-foreground leading-relaxed">
                 <p>
                   Southeastern Chess is a regional initiative operating under the
-                  Parent Teacher Student Organization (PTSO), a recognized
-                  501(c)(3) nonprofit dedicated to educational and community
-                  enrichment.
+                  Parent Teacher Student Organization (PTSO), a recognized 501(c)(3)
+                  nonprofit dedicated to educational and community enrichment.
                 </p>
 
                 <p>
-                  Our mission is to grow chess across the Southeastern United
-                  States by organizing complementary events that strengthen and
-                  support existing chess programs. We strive to create welcoming,
-                  high-quality playing environments for players of all ages,
-                  backgrounds, and skill levels.
+                  Our mission is to grow chess across the Southeastern United States by
+                  organizing complementary events that strengthen and support existing
+                  chess programs. We are committed to creating welcoming, high-quality
+                  playing environments for players of all ages, backgrounds, and skill
+                  levels.
                 </p>
 
-                <p className="italic">
+                <p className="italic text-center">
                   “As iron sharpens iron, so one person sharpens another.”
-                  — Proverbs 27:17
+                  <br />— Proverbs 27:17
                 </p>
 
                 <p>
                   A cornerstone of our work is the{" "}
-                  <strong>SE Women and Girls Chess Championships Task Force</strong>,
-                  a coalition that secured a{" "}
+                  <strong>SE Women and Girls Chess Championships Task Force</strong>, a
+                  coalition that secured a{" "}
                   <strong>$3,500 grant from the U.S. Chess Federation</strong> to
                   establish an annual regional championship for women and girls.
                 </p>
@@ -209,10 +209,9 @@ export default function Home() {
                 </div>
 
                 <p>
-                  Through these initiatives, Southeastern Chess aims to expand
-                  access, encourage participation, and elevate chess as a tool
-                  for education, character development, and community throughout
-                  the Southeast.
+                  Through these initiatives, Southeastern Chess seeks to expand access,
+                  encourage participation, and elevate chess as a tool for education,
+                  character development, and community throughout the Southeast.
                 </p>
               </div>
             </CardContent>
@@ -220,9 +219,10 @@ export default function Home() {
         </div>
       </section>
 
+
       {/* ================= CTA ================= */}
       <section className="py-16 md:py-20 px-4 bg-background">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <Card className="shadow-sm">
             <CardContent className="p-8 md:p-10 text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
