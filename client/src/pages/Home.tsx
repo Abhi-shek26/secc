@@ -4,6 +4,7 @@ import { RegisterButton } from "@/components/RegisterButton";
 import { TOURNAMENT_DATA } from "@/lib/constants";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, Trophy, Users, MapPin } from "lucide-react";
+
 import heroImage1 from "@assets/generated_images/women_playing_chess_tournament.png";
 import heroImage2 from "@assets/generated_images/women_chess_tournament_move.png";
 import heroImage3 from "@assets/generated_images/girl_chess_tournament_concentration.png";
@@ -22,12 +23,13 @@ export default function Home() {
 
   return (
     <Layout>
+      {/* ================= HERO ================= */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           {heroImages.map((image, index) => (
-            <img 
+            <img
               key={index}
-              src={image} 
+              src={image}
               alt={`Women and girls playing chess ${index + 1}`}
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
                 index === currentImageIndex ? "opacity-100" : "opacity-0"
@@ -35,118 +37,120 @@ export default function Home() {
             />
           ))}
           <div className="absolute inset-0 bg-black/25" />
-            <div className="absolute bottom-6 right-6 z-20" data-testid="logo-badge">
-              <div className="bg-white/85 dark:bg-black/70 backdrop-blur-sm p-2 rounded-lg">
-                <img
-                  src="/favicon.png"
-                  alt="SE Women's Chess Championship Logo"
-                  className="h-14 w-14 md:h-16 md:w-16 object-contain"
-                />
-              </div>
+
+          {/* Corner logo */}
+          <div className="absolute bottom-6 right-6 z-20">
+            <div className="bg-white/85 dark:bg-black/70 backdrop-blur-sm p-2 rounded-lg">
+              <img
+                src="/favicon.png"
+                alt="SE Women's Chess Championship Logo"
+                className="h-14 w-14 md:h-16 md:w-16 object-contain"
+              />
             </div>
           </div>
-        
+        </div>
+
         <div className="relative z-10 text-center px-4 py-16 max-w-4xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight drop-shadow-lg" data-testid="text-hero-title">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight drop-shadow-lg">
             {TOURNAMENT_DATA.name}
           </h1>
-          
-          <div className="mt-8 inline-flex flex-wrap justify-center gap-6 rounded-xl bg-black/20 backdrop-blur-s px-6 py-4">
-                <div className="flex items-center gap-2 text-lg text-white/90">
-                  <Calendar className="h-5 w-5" />
-                  <span>{TOURNAMENT_DATA.date}</span>
-                </div>
-                <div className="flex items-center gap-2 text-lg text-white/90">
-                  <Trophy className="h-5 w-5" />
-                  <span>{TOURNAMENT_DATA.prizeFund}</span>
-                </div>
-                <div className="flex items-center gap-2 text-lg text-white/90">
-                  <Users className="h-5 w-5" />
-                  <span>Cap: {TOURNAMENT_DATA.registrationCap} players</span>
-                </div>
-              </div>
 
-              <div className="mt-10">
-                <RegisterButton
-                  size="lg"
-                  className="text-lg px-10 py-6 font-semibold tracking-wide"
-                />
-              </div>
-
-              <p className="mt-4 text-sm text-white/80">
-                {TOURNAMENT_DATA.grantNote}
-              </p>
+          <div className="mt-8 inline-flex flex-wrap justify-center gap-6 rounded-xl bg-black/20 backdrop-blur-md px-6 py-4">
+            <div className="flex items-center gap-2 text-lg text-white/90">
+              <Calendar className="h-5 w-5" />
+              <span>{TOURNAMENT_DATA.date}</span>
             </div>
-          </section>
+            <div className="flex items-center gap-2 text-lg text-white/90">
+              <Trophy className="h-5 w-5" />
+              <span>{TOURNAMENT_DATA.prizeFund}</span>
+            </div>
+            <div className="flex items-center gap-2 text-lg text-white/90">
+              <Users className="h-5 w-5" />
+              <span>Cap: {TOURNAMENT_DATA.registrationCap} players</span>
+            </div>
+          </div>
 
+          <div className="mt-10">
+            <RegisterButton
+              size="lg"
+              className="text-lg px-10 py-6 font-semibold tracking-wide"
+            />
+          </div>
+
+          <p className="mt-4 text-sm text-white/80">
+            {TOURNAMENT_DATA.grantNote}
+          </p>
+        </div>
+      </section>
+
+      {/* ================= HIGHLIGHTS ================= */}
       <section className="py-16 md:py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12" data-testid="text-highlights-title">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Tournament Highlights
           </h2>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card data-testid="card-highlight-sections">
+            <Card>
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-3">Multiple Sections</h3>
                 <p className="text-muted-foreground">
-                  Women's Open, U1800, and Girls' K-3, K-5, K-8, K-12 sections. 
+                  Women's Open, U1800, and Girls' K-3, K-5, K-8, K-12 sections.
                   Family & Friends section available.
                 </p>
               </CardContent>
             </Card>
-            
-            <Card data-testid="card-highlight-prizes">
+
+            <Card>
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-3">Guaranteed Prizes</h3>
                 <p className="text-muted-foreground">
-                  $5,000+ guaranteed prize fund with cash prizes, trophies, and medals 
-                  for top performers across all sections.
+                  $5,000+ guaranteed prize fund with cash prizes, trophies, and
+                  medals across all sections.
                 </p>
               </CardContent>
             </Card>
-            
-            <Card data-testid="card-highlight-free">
+
+            <Card>
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-3">Free Entry Available</h3>
                 <p className="text-muted-foreground">
-                  Titled players, ACCC members, and designated children eligible 
-                  for free registration.
+                  Titled players, ACCC members, and designated children may be
+                  eligible for free registration.
                 </p>
               </CardContent>
             </Card>
-            
-            <Card data-testid="card-highlight-broadcast">
+
+            <Card>
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-3">Live Broadcast</h3>
                 <p className="text-muted-foreground">
-                  Top boards broadcast via DGT boards online. Watch the excitement 
-                  from anywhere!
+                  Top boards broadcast online using DGT boards. Follow the action
+                  from anywhere.
                 </p>
               </CardContent>
             </Card>
-            
-            <Card data-testid="card-highlight-venue">
-              <CardContent className="p-6">
-                <div className="flex items-start gap-3">
-                  <MapPin className="h-5 w-5 text-primary flex-shrink-0 mt-1" />
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">Great Venue</h3>
-                    <p className="text-muted-foreground text-sm">
-                      {TOURNAMENT_DATA.venue.name}<br />
-                      {TOURNAMENT_DATA.venue.address}
-                    </p>
-                  </div>
+
+            <Card>
+              <CardContent className="p-6 flex gap-3">
+                <MapPin className="h-5 w-5 text-primary mt-1" />
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Great Venue</h3>
+                  <p className="text-muted-foreground text-sm">
+                    {TOURNAMENT_DATA.venue.name}
+                    <br />
+                    {TOURNAMENT_DATA.venue.address}
+                  </p>
                 </div>
               </CardContent>
             </Card>
-            
-            <Card data-testid="card-highlight-special">
+
+            <Card>
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-3">Special Awards</h3>
                 <p className="text-muted-foreground">
-                  State medals for top players from 10 states. Winners receive free 
-                  entry to national championships!
+                  State medals for top players from 10 states. Winners receive
+                  free entry to national championships.
                 </p>
               </CardContent>
             </Card>
@@ -154,18 +158,94 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 md:py-20 px-4 bg-muted/30">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6" data-testid="text-cta-title">
-            Ready to Compete?
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Join chess players from across the Southeast for an exciting day of competition, 
-            networking, and fun. Don't miss this opportunity!
-          </p>
-          <RegisterButton size="lg" className="text-lg px-8 py-6" />
+      {/* ================= MISSION ================= */}
+      <section className="py-16 md:py-20 px-4 bg-background">
+        <div className="max-w-4xl mx-auto">
+          <Card className="shadow-sm">
+            <CardContent className="p-8 md:p-10">
+              <h2 className="text-3xl font-bold mb-6 text-center">
+                Our Mission
+              </h2>
+
+              <div className="space-y-4 text-muted-foreground leading-relaxed">
+                <p>
+                  Southeastern Chess is a regional initiative operating under the
+                  Parent Teacher Student Organization (PTSO), a recognized
+                  501(c)(3) nonprofit dedicated to educational and community
+                  enrichment.
+                </p>
+
+                <p>
+                  Our mission is to grow chess across the Southeastern United
+                  States by organizing complementary events that strengthen and
+                  support existing chess programs. We strive to create welcoming,
+                  high-quality playing environments for players of all ages,
+                  backgrounds, and skill levels.
+                </p>
+
+                <p className="italic">
+                  “As iron sharpens iron, so one person sharpens another.”
+                  — Proverbs 27:17
+                </p>
+
+                <p>
+                  A cornerstone of our work is the{" "}
+                  <strong>SE Women and Girls Chess Championships Task Force</strong>,
+                  a coalition that secured a{" "}
+                  <strong>$3,500 grant from the U.S. Chess Federation</strong> to
+                  establish an annual regional championship for women and girls.
+                </p>
+
+                <div>
+                  <p className="font-medium text-foreground mb-2">
+                    Founding partners:
+                  </p>
+                  <ul className="list-disc list-inside space-y-1">
+                    <li>Parent Teacher Student Organization</li>
+                    <li>Atlanta Chinese Christian Church (Tucker)</li>
+                    <li>Chess Nation</li>
+                    <li>North Atlanta Chess Club</li>
+                  </ul>
+                </div>
+
+                <p>
+                  Through these initiatives, Southeastern Chess aims to expand
+                  access, encourage participation, and elevate chess as a tool
+                  for education, character development, and community throughout
+                  the Southeast.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
+
+      {/* ================= CTA ================= */}
+      <section className="py-16 md:py-20 px-4 bg-background">
+        <div className="max-w-4xl mx-auto">
+          <Card className="shadow-sm">
+            <CardContent className="p-8 md:p-10 text-center">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                Ready to Compete?
+              </h2>
+
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
+                Join chess players from across the Southeast for an exciting day of
+                competition, community, and growth. Don’t miss the opportunity to be
+                part of something meaningful.
+              </p>
+
+              {/* IMPORTANT: button directly, no wrapper */}
+              <RegisterButton
+                size="lg"
+                className="text-lg px-10 py-6 font-semibold tracking-wide"
+              />
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+
     </Layout>
   );
 }
