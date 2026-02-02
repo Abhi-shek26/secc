@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TOURNAMENT_DATA, REGISTRATION_URL, isRegistrationAvailable } from "@/lib/constants";
 import { RegisterButton, RegistrationStatus } from "@/components/RegisterButton";
-import { Calendar, Trophy, Users, Clock, DollarSign, Info } from "lucide-react";
+import { Calendar, Trophy, Users, Clock, DollarSign, Info, ExternalLink } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 
@@ -19,13 +19,14 @@ export default function Register() {
       
       <div className="py-12 md:py-16 px-4">
         <div className="max-w-4xl mx-auto space-y-8">
-          <Card className="border-primary/20 bg-primary/5" data-testid="card-registration-cta">
-            <CardContent className="p-8 text-center">
-              <h2 className="text-2xl font-bold mb-4" data-testid="text-register-heading">
+          <Card data-testid="card-registration-cta">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-2xl text-center">
                 Register for the Tournament
-              </h2>
-              
-              <div className="flex flex-wrap justify-center gap-4 mb-6 text-sm text-muted-foreground">
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-8">
+              <div className="flex flex-wrap justify-center gap-4 mb-8 text-sm text-muted-foreground">
                 <span className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
                   {TOURNAMENT_DATA.date}
@@ -39,19 +40,84 @@ export default function Register() {
                   Cap: {TOURNAMENT_DATA.registrationCap}
                 </span>
               </div>
-              
-              {available ? (
-                <RegisterButton size="lg" className="text-lg px-8 py-6" />
-              ) : (
-                <div className="space-y-4">
-                  <div className="inline-block px-6 py-3 bg-muted rounded-lg">
-                    <RegistrationStatus />
+
+              <div className="grid md:grid-cols-2 gap-4 mb-6">
+                <a
+                  href="https://www.chessregister.com/register?event_key=6OeZgtjyCj6SDFjtSJPtts1V04Ucuw73-2nkGVypuPY%3D"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group"
+                >
+                  <div className="p-4 border border-primary/20 rounded-lg hover:border-primary/50 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Trophy className="h-5 w-5 text-primary" />
+                      <h3 className="font-semibold">Open Session</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-3">Women's Open & U1800</p>
+                    <div className="inline-flex items-center gap-2 text-primary group-hover:gap-3 transition-all text-sm font-medium">
+                      Register Now
+                      <ExternalLink className="h-4 w-4" />
+                    </div>
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    Check back soon or contact our coordinators for more information.
-                  </p>
-                </div>
-              )}
+                </a>
+
+                <a
+                  href="https://www.chessregister.com/register?event_key=7GirNtG8DsjEGkmQZqlLxM1V04Ucuw73-2nkGVypuPY%3D"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group"
+                >
+                  <div className="p-4 border border-primary/20 rounded-lg hover:border-primary/50 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Users className="h-5 w-5 text-primary" />
+                      <h3 className="font-semibold">Scholastic</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-3">K-3, K-5, K-8, K-12</p>
+                    <div className="inline-flex items-center gap-2 text-primary group-hover:gap-3 transition-all text-sm font-medium">
+                      Register Now
+                      <ExternalLink className="h-4 w-4" />
+                    </div>
+                  </div>
+                </a>
+
+                <a
+                  href="https://www.chessregister.com/register?event_key=29LIKyXgHBd5g0o0HrhAEs1V04Ucuw73-2nkGVypuPY%3D"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group"
+                >
+                  <div className="p-4 border border-primary/20 rounded-lg hover:border-primary/50 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Clock className="h-5 w-5 text-primary" />
+                      <h3 className="font-semibold">Non-Rated</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-3">Women & Girls (Unrated)</p>
+                    <div className="inline-flex items-center gap-2 text-primary group-hover:gap-3 transition-all text-sm font-medium">
+                      Register Now
+                      <ExternalLink className="h-4 w-4" />
+                    </div>
+                  </div>
+                </a>
+
+                <a
+                  href="https://www.chessregister.com/register?event_key=o0mSOO83WQmAOiHwHySmcc1V04Ucuw73-2nkGVypuPY%3D"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group"
+                >
+                  <div className="p-4 border border-primary/20 rounded-lg hover:border-primary/50 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Users className="h-5 w-5 text-primary" />
+                      <h3 className="font-semibold">Friends & Family</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-3">Family & Friends Section</p>
+                    <div className="inline-flex items-center gap-2 text-primary group-hover:gap-3 transition-all text-sm font-medium">
+                      Register Now
+                      <ExternalLink className="h-4 w-4" />
+                    </div>
+                  </div>
+                </a>
+              </div>
             </CardContent>
           </Card>
           
@@ -144,7 +210,7 @@ export default function Register() {
               </Card>
             </div>
           </section>
-          
+
           <Card data-testid="card-important-info">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2">
