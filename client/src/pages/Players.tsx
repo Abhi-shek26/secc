@@ -9,8 +9,6 @@ interface PlayerSectionProps {
 }
 
 function PlayerSection({ title, players }: PlayerSectionProps) {
-  if (players.length === 0) return null;
-  
   return (
     <Card className="mb-6" data-testid={`card-section-${title.toLowerCase().replace(/\s+/g, '-')}`}>
       <CardHeader className="pb-3">
@@ -19,24 +17,30 @@ function PlayerSection({ title, players }: PlayerSectionProps) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="text-left py-2 px-4 font-medium text-muted-foreground">Registrant Name</th>
-                <th className="text-left py-2 px-4 font-medium text-muted-foreground">Rating</th>
-              </tr>
-            </thead>
-            <tbody>
-              {players.map((player, index) => (
-                <tr key={index} className="border-b border-border/50 last:border-0" data-testid={`row-player-${index}`}>
-                  <td className="py-3 px-4">{player.name}</td>
-                  <td className="py-3 px-4 text-primary">{player.rating}</td>
+        {players.length === 0 ? (
+          <div className="text-center py-8 text-muted-foreground">
+            <p className="text-lg">Players to be announced</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left py-2 px-4 font-medium text-muted-foreground">Registrant Name</th>
+                  <th className="text-left py-2 px-4 font-medium text-muted-foreground">Rating</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {players.map((player, index) => (
+                  <tr key={index} className="border-b border-border/50 last:border-0" data-testid={`row-player-${index}`}>
+                    <td className="py-3 px-4">{player.name}</td>
+                    <td className="py-3 px-4 text-primary">{player.rating}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
@@ -59,7 +63,7 @@ export default function Players() {
             Pre-Registered Players
           </h1>
           <p className="text-muted-foreground text-lg">
-            Event Registrants for {TOURNAMENT_DATA.name} ({totalPlayers})
+            Event Registrants for {TOURNAMENT_DATA.name}
           </p>
         </div>
 

@@ -16,6 +16,7 @@ import Pairings from "@/pages/Pairings";
 import Contact from "@/pages/Contact";
 import Register from "@/pages/Register";
 import NotFound from "@/pages/not-found";
+import Flyer from "@/pages/Flyer";
 
 function Router() {
   return (
@@ -32,6 +33,7 @@ function Router() {
       <Route path="/pairings" component={Pairings} />
       <Route path="/contact" component={Contact} />
       <Route path="/register" component={Register} />
+      <Route path="/flyer" component={Flyer} />
       <Route component={NotFound} />
     </Switch>
   );

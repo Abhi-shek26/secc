@@ -11,6 +11,8 @@ import heroImage3 from "@assets/generated_images/girl_chess_tournament_concentra
 
 const heroImages = [heroImage1, heroImage2, heroImage3];
 
+import FlyerPopup from "@/components/FlyerPopup";
+
 export default function Home() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -23,6 +25,7 @@ export default function Home() {
 
   return (
     <Layout>
+      <FlyerPopup />
       {/* ================= HERO ================= */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
