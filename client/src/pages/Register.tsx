@@ -48,13 +48,13 @@ export default function Register() {
                   rel="noreferrer"
                   className="group"
                 >
-                  <div className="p-4 border border-primary/20 rounded-lg hover:border-primary/50 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all">
+                  <div className="p-4 border border-primary/20 rounded-lg hover:border-primary/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <Trophy className="h-5 w-5 text-primary" />
                       <h3 className="font-semibold">Open Session</h3>
                     </div>
                     <p className="text-sm text-muted-foreground mb-3">Women's Open & U1800</p>
-                    <div className="inline-flex items-center gap-2 text-primary group-hover:gap-3 transition-all text-sm font-medium">
+                    <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-pink-600 text-white px-5 py-2.5 rounded-md shadow-lg ring-2 ring-primary/30 hover:ring-primary/60 group-hover:shadow-xl group-hover:scale-[1.05] transition-all duration-300 text-base font-semibold">
                       Register Now
                       <ExternalLink className="h-4 w-4" />
                     </div>
@@ -67,13 +67,13 @@ export default function Register() {
                   rel="noreferrer"
                   className="group"
                 >
-                  <div className="p-4 border border-primary/20 rounded-lg hover:border-primary/50 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all">
+                  <div className="p-4 border border-primary/20 rounded-lg hover:border-primary/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <Users className="h-5 w-5 text-primary" />
                       <h3 className="font-semibold">Scholastic</h3>
                     </div>
                     <p className="text-sm text-muted-foreground mb-3">K-3, K-5, K-8, K-12</p>
-                    <div className="inline-flex items-center gap-2 text-primary group-hover:gap-3 transition-all text-sm font-medium">
+                    <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-pink-600 text-white px-5 py-2.5 rounded-md shadow-lg ring-2 ring-primary/30 hover:ring-primary/60 group-hover:shadow-xl group-hover:scale-[1.05] transition-all duration-300 text-base font-semibold">
                       Register Now
                       <ExternalLink className="h-4 w-4" />
                     </div>
@@ -86,13 +86,13 @@ export default function Register() {
                   rel="noreferrer"
                   className="group"
                 >
-                  <div className="p-4 border border-primary/20 rounded-lg hover:border-primary/50 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all">
+                  <div className="p-4 border border-primary/20 rounded-lg hover:border-primary/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <Clock className="h-5 w-5 text-primary" />
                       <h3 className="font-semibold">Non-Rated</h3>
                     </div>
                     <p className="text-sm text-muted-foreground mb-3">Women & Girls (Unrated)</p>
-                    <div className="inline-flex items-center gap-2 text-primary group-hover:gap-3 transition-all text-sm font-medium">
+                    <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-pink-600 text-white px-5 py-2.5 rounded-md shadow-lg ring-2 ring-primary/30 hover:ring-primary/60 group-hover:shadow-xl group-hover:scale-[1.05] transition-all duration-300 text-base font-semibold">
                       Register Now
                       <ExternalLink className="h-4 w-4" />
                     </div>
@@ -105,13 +105,13 @@ export default function Register() {
                   rel="noreferrer"
                   className="group"
                 >
-                  <div className="p-4 border border-primary/20 rounded-lg hover:border-primary/50 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all">
+                  <div className="p-4 border border-primary/20 rounded-lg hover:border-primary/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <Users className="h-5 w-5 text-primary" />
                       <h3 className="font-semibold">Friends & Family</h3>
                     </div>
                     <p className="text-sm text-muted-foreground mb-3">Family & Friends Section</p>
-                    <div className="inline-flex items-center gap-2 text-primary group-hover:gap-3 transition-all text-sm font-medium">
+                    <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-pink-600 text-white px-5 py-2.5 rounded-md shadow-lg ring-2 ring-primary/30 hover:ring-primary/60 group-hover:shadow-xl group-hover:scale-[1.05] transition-all duration-300 text-base font-semibold">
                       Register Now
                       <ExternalLink className="h-4 w-4" />
                     </div>
