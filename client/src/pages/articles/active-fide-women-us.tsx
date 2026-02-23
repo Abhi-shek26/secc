@@ -114,7 +114,7 @@ export default function ActiveFideWomenUsArticle() {
                     className="w-full aspect-[4/3] object-cover rounded-md border"
                     loading="lazy"
                     onError={(event) => {
-                      event.currentTarget.src = "/favicon.png";
+                      event.currentTarget.src = "/favicon.png?v=20260224";
                     }}
                   />
                   <div>

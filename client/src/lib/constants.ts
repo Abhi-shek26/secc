@@ -7,7 +7,7 @@ export const GRAND_PRIX_POINTS = 100;
 export const TOURNAMENT_DATA = {
   name: "2026 Southeastern Regional Women's and Girls' Chess Championship",
   // Use site favicon by default; replace with custom path if needed
-  logoUrl: "/favicon.png",
+  logoUrl: "/favicon.png?v=20260224",
   date: "May 9, 2026",
   prizeFund: "$5,000+ Guaranteed Prize Fund",
   grantNote: "US Chess Grant",
