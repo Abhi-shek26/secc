@@ -1,7 +1,7 @@
 import { Layout } from "@/components/layout/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TOURNAMENT_DATA } from "@/lib/constants";
+import { TOURNAMENT_DATA, PAIRINGS_SHEET_URL, STANDINGS_SHEET_URL } from "@/lib/constants";
 import { ClipboardList, Trophy } from "lucide-react";
 
 export default function Pairings() {
@@ -35,36 +35,45 @@ export default function Pairings() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-12">
-                  <p className="text-muted-foreground text-lg mb-4">
-                    Pairings will be posted here on tournament day.
-                  </p>
-                  <p className="text-muted-foreground">
-                    Check back on {TOURNAMENT_DATA.date} for live updates.
-                  </p>
-                </div>
-
-                <div className="mt-8 space-y-4">
-                  <h3 className="font-semibold text-lg">Sections</h3>
-                  <div className="grid gap-3">
-                    <div className="p-4 bg-muted/50 rounded-md">
-                      <p className="font-medium">Women's Open</p>
-                      <p className="text-sm text-muted-foreground">{TOURNAMENT_DATA.timeControls.openWomen.format}</p>
+                {PAIRINGS_SHEET_URL ? (
+                  <><div className="w-full">
+                    <iframe
+                      src={PAIRINGS_SHEET_URL}
+                      title="Tournament Pairings"
+                      className="w-full h-[600px] border rounded-md" />
+                  </div><div className="mt-8 space-y-4">
+                      <h3 className="font-semibold text-lg">Sections</h3>
+                      <div className="grid gap-3">
+                        <div className="p-4 bg-muted/50 rounded-md">
+                          <p className="font-medium">Women's Open</p>
+                          <p className="text-sm text-muted-foreground">{TOURNAMENT_DATA.timeControls.openWomen.format}</p>
+                        </div>
+                        <div className="p-4 bg-muted/50 rounded-md">
+                          <p className="font-medium">Women's U1800</p>
+                          <p className="text-sm text-muted-foreground">{TOURNAMENT_DATA.timeControls.openWomen.format}</p>
+                        </div>
+                        <div className="p-4 bg-muted/50 rounded-md">
+                          <p className="font-medium">Girls K-12, K-8, K-5, K-3</p>
+                          <p className="text-sm text-muted-foreground">{TOURNAMENT_DATA.timeControls.scholastic.format}</p>
+                        </div>
+                        <div className="p-4 bg-muted/50 rounded-md">
+                          <p className="font-medium">Family & Friends / Unrated</p>
+                          <p className="text-sm text-muted-foreground">{TOURNAMENT_DATA.timeControls.scholastic.format}</p>
+                        </div>
+                      </div>
+                    </div></>
+                ) : (
+                  <>
+                    <div className="text-center py-12">
+                      <p className="text-muted-foreground text-lg mb-4">
+                        Pairings will be posted here on tournament day.
+                      </p>
+                      <p className="text-muted-foreground">
+                        Check back on {TOURNAMENT_DATA.date} for live updates.
+                      </p>
                     </div>
-                    <div className="p-4 bg-muted/50 rounded-md">
-                      <p className="font-medium">Women's U1800</p>
-                      <p className="text-sm text-muted-foreground">{TOURNAMENT_DATA.timeControls.openWomen.format}</p>
-                    </div>
-                    <div className="p-4 bg-muted/50 rounded-md">
-                      <p className="font-medium">Girls K-12, K-8, K-5, K-3</p>
-                      <p className="text-sm text-muted-foreground">{TOURNAMENT_DATA.timeControls.scholastic.format}</p>
-                    </div>
-                    <div className="p-4 bg-muted/50 rounded-md">
-                      <p className="font-medium">Family & Friends / Unrated</p>
-                      <p className="text-sm text-muted-foreground">{TOURNAMENT_DATA.timeControls.scholastic.format}</p>
-                    </div>
-                  </div>
-                </div>
+                  </>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -78,23 +87,35 @@ export default function Pairings() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-12">
-                  <p className="text-muted-foreground text-lg mb-4">
-                    Standings will be posted here during the tournament.
-                  </p>
-                  <p className="text-muted-foreground">
-                    Results will be updated after each round.
-                  </p>
-                </div>
+                {STANDINGS_SHEET_URL ? (
+                  <div className="w-full">
+                    <iframe
+                      src={STANDINGS_SHEET_URL}
+                      title="Tournament Standings"
+                      className="w-full h-[600px] border rounded-md"
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <div className="text-center py-12">
+                      <p className="text-muted-foreground text-lg mb-4">
+                        Standings will be posted here during the tournament.
+                      </p>
+                      <p className="text-muted-foreground">
+                        Results will be updated after each round.
+                      </p>
+                    </div>
 
-                <div className="mt-8">
-                  <h3 className="font-semibold text-lg mb-4">Tiebreak Procedures</h3>
-                  <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
-                    {TOURNAMENT_DATA.tiebreaks.map((tiebreak, index) => (
-                      <li key={index}>{tiebreak}</li>
-                    ))}
-                  </ol>
-                </div>
+                    <div className="mt-8">
+                      <h3 className="font-semibold text-lg mb-4">Tiebreak Procedures</h3>
+                      <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
+                        {TOURNAMENT_DATA.tiebreaks.map((tiebreak, index) => (
+                          <li key={index}>{tiebreak}</li>
+                        ))}
+                      </ol>
+                    </div>
+                  </>
+                )}
               </CardContent>
             </Card>
           </TabsContent>

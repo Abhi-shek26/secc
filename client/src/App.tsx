@@ -17,6 +17,12 @@ import Contact from "@/pages/Contact";
 import Register from "@/pages/Register";
 import NotFound from "@/pages/not-found";
 import Flyer from "@/pages/Flyer";
+import Articles from "@/pages/Articles";
+import TopScholasticGirls from "@/pages/articles/top-scholastic-girls";
+import DemographicsArticle from "@/pages/articles/demographics-females";
+import ParentsGuide from "@/pages/articles/fewer-girls-guide";
+import UnpackingBarriers from "@/pages/articles/fewer-girls-unpacking";
+import ActiveFideWomenUsArticle from "@/pages/articles/active-fide-women-us";
 
 function Router() {
   return (
@@ -31,6 +37,12 @@ function Router() {
       <Route path="/sponsors" component={Sponsors} />
       <Route path="/players" component={Players} />
       <Route path="/pairings" component={Pairings} />
+      <Route path="/articles" component={Articles} />
+      <Route path="/articles/top-scholastic-girls" component={TopScholasticGirls} />
+      <Route path="/articles/demographics-females" component={DemographicsArticle} />
+      <Route path="/articles/fewer-girls-guide" component={ParentsGuide} />
+      <Route path="/articles/fewer-girls-unpacking" component={UnpackingBarriers} />
+      <Route path="/articles/active-fide-women-us" component={ActiveFideWomenUsArticle} />
       <Route path="/contact" component={Contact} />
       <Route path="/register" component={Register} />
       <Route path="/flyer" component={Flyer} />

@@ -118,7 +118,7 @@ export default function Prizes() {
                     {TOURNAMENT_DATA.prizes.medals}
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    {["AL", "AR", "FL", "GA", "MS", "NC", "SC", "TN", "TX", "VA"].map((state) => (
+                    {TOURNAMENT_DATA.stateMedals.map((state) => (
                       <Badge key={state} variant="outline">{state}</Badge>
                     ))}
                   </div>

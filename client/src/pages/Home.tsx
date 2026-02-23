@@ -43,11 +43,11 @@ export default function Home() {
 
           {/* Corner logo */}
           <div className="absolute bottom-6 right-6 z-20">
-            <div className="bg-white/85 dark:bg-black/70 backdrop-blur-sm p-2 rounded-lg">
+            <div>
               <img
-                src="/favicon.png"
+                src={TOURNAMENT_DATA.logoUrl || "/favicon.png"}
                 alt="SE Women's Chess Championship Logo"
-                className="h-14 w-14 md:h-16 md:w-16 object-contain"
+                className="h-36 w-36 md:h-40 md:w-40 object-contain"
               />
             </div>
           </div>

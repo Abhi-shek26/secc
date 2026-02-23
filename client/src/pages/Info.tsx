@@ -34,6 +34,7 @@ export default function Info() {
                       <TableRow>
                         <TableHead>Section</TableHead>
                         <TableHead>Early</TableHead>
+                        <TableHead>After</TableHead>
                         <TableHead>On-site</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -42,6 +43,7 @@ export default function Info() {
                         <TableRow key={section.name}>
                           <TableCell className="font-medium">{section.name}</TableCell>
                           <TableCell>{section.earlyFee}</TableCell>
+                          <TableCell>{section.afterFee ?? section.earlyFee}</TableCell>
                           <TableCell>{section.onsiteFee}</TableCell>
                         </TableRow>
                       ))}
@@ -63,6 +65,7 @@ export default function Info() {
                       <TableRow>
                         <TableHead>Section</TableHead>
                         <TableHead>Early</TableHead>
+                        <TableHead>After</TableHead>
                         <TableHead>On-site</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -71,6 +74,7 @@ export default function Info() {
                         <TableRow key={section.name}>
                           <TableCell className="font-medium">{section.name}</TableCell>
                           <TableCell>{section.earlyFee}</TableCell>
+                          <TableCell>{section.afterFee ?? section.earlyFee}</TableCell>
                           <TableCell>{section.onsiteFee}</TableCell>
                         </TableRow>
                       ))}
@@ -188,7 +192,7 @@ export default function Info() {
           
           <section>
             <h2 className="text-2xl md:text-3xl font-semibold mb-6" data-testid="text-tiebreak-title">
-              Tie-break System
+              Tie-break System — Standard Tie-break
             </h2>
             <Card>
               <CardContent className="p-6">
