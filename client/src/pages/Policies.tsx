@@ -35,7 +35,7 @@ export default function Policies() {
           
           <Card data-testid="card-tiebreaks">
             <CardHeader className="pb-3">
-              <CardTitle>Tie-break System — Standard Tie-break</CardTitle>
+              <CardTitle>Standard Tie-break</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-4">
