@@ -68,7 +68,6 @@ export default function Players() {
         </div>
 
         <PlayerSection title="Women's Open" players={PREREGISTERED_PLAYERS.womensOpen} />
-        <PlayerSection title="Women's U1800" players={PREREGISTERED_PLAYERS.womensU1800} />
         <PlayerSection title="Girls K-12" players={PREREGISTERED_PLAYERS.girlsK12} />
         <PlayerSection title="Girls K-8" players={PREREGISTERED_PLAYERS.girlsK8} />
         <PlayerSection title="Girls K-5" players={PREREGISTERED_PLAYERS.girlsK5} />

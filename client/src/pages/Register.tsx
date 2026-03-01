@@ -53,7 +53,7 @@ export default function Register() {
                       <Trophy className="h-5 w-5 text-primary" />
                       <h3 className="font-semibold">Open Session</h3>
                     </div>
-                    <p className="text-sm text-muted-foreground mb-3">Women's Open & U1800</p>
+                    <p className="text-sm text-muted-foreground mb-3">Women's Open</p>
                     <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-pink-600 text-white px-5 py-2.5 rounded-md shadow-lg ring-2 ring-primary/30 hover:ring-primary/60 group-hover:shadow-xl group-hover:scale-[1.05] transition-all duration-300 text-base font-semibold">
                       Register Now
                       <ExternalLink className="h-4 w-4" />

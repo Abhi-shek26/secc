@@ -76,6 +76,7 @@ export default function Home() {
           <div className="mt-10">
             <RegisterButton
               size="lg"
+              destination="register"
               className="text-lg px-10 py-6 font-semibold tracking-wide"
             />
           </div>
@@ -98,7 +99,7 @@ export default function Home() {
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-3">Multiple Sections</h3>
                 <p className="text-muted-foreground">
-                  Women's Open, U1800, and Girls' K-3, K-5, K-8, K-12 sections.
+                  Women's Open and Girls' K-3, K-5, K-8, K-12 sections.
                   Family & Friends section available.
                 </p>
               </CardContent>
@@ -241,6 +242,7 @@ export default function Home() {
               {/* IMPORTANT: button directly, no wrapper */}
               <RegisterButton
                 size="lg"
+                destination="register"
                 className="text-lg px-10 py-6 font-semibold tracking-wide"
               />
             </CardContent>

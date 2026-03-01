@@ -6,10 +6,26 @@ interface RegisterButtonProps {
   size?: "default" | "sm" | "lg";
   className?: string;
   variant?: "default" | "outline";
+  destination?: "auto" | "register";
 }
 
-export function RegisterButton({ size = "default", className = "", variant = "default" }: RegisterButtonProps) {
+export function RegisterButton({
+  size = "default",
+  className = "",
+  variant = "default",
+  destination = "auto"
+}: RegisterButtonProps) {
   const available = isRegistrationAvailable();
+
+  if (destination === "register") {
+    return (
+      <Link href="/register">
+        <Button size={size} variant={variant} className={className} data-testid="button-register-route">
+          Register Now
+        </Button>
+      </Link>
+    );
+  }
 
   if (available) {
     return (

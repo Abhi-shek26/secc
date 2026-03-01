@@ -49,10 +49,6 @@ export default function Pairings() {
                           <p className="text-sm text-muted-foreground">{TOURNAMENT_DATA.timeControls.openWomen.format}</p>
                         </div>
                         <div className="p-4 bg-muted/50 rounded-md">
-                          <p className="font-medium">Women's U1800</p>
-                          <p className="text-sm text-muted-foreground">{TOURNAMENT_DATA.timeControls.openWomen.format}</p>
-                        </div>
-                        <div className="p-4 bg-muted/50 rounded-md">
                           <p className="font-medium">Girls K-12, K-8, K-5, K-3</p>
                           <p className="text-sm text-muted-foreground">{TOURNAMENT_DATA.timeControls.scholastic.format}</p>
                         </div>

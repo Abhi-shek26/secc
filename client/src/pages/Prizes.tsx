@@ -22,7 +22,7 @@ export default function Prizes() {
               Cash Prizes
             </h2>
             
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid gap-6">
               <Card data-testid="card-womens-open-prizes">
                 <CardHeader className="pb-3">
                   <CardTitle>Women's Open</CardTitle>
@@ -37,32 +37,6 @@ export default function Prizes() {
                     </TableHeader>
                     <TableBody>
                       {TOURNAMENT_DATA.prizes.womensOpen.map((prize) => (
-                        <TableRow key={prize.place}>
-                          <TableCell className="font-medium">{prize.place}</TableCell>
-                          <TableCell className="text-right text-primary font-semibold">
-                            {prize.amount}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
-              
-              <Card data-testid="card-u1600-prizes">
-                <CardHeader className="pb-3">
-                  <CardTitle>U1600</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Place</TableHead>
-                        <TableHead className="text-right">Prize</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {TOURNAMENT_DATA.prizes.u1600.map((prize) => (
                         <TableRow key={prize.place}>
                           <TableCell className="font-medium">{prize.place}</TableCell>
                           <TableCell className="text-right text-primary font-semibold">

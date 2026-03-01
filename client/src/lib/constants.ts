@@ -1,4 +1,4 @@
-export const REGISTRATION_URL: string = "https://chessregister.com";
+export const REGISTRATION_URL: string = "https://southeastchess.org/register";
 export const PAIRINGS_SHEET_URL = "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/preview";
 export const STANDINGS_SHEET_URL = "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/preview";
 
@@ -30,8 +30,7 @@ export const TOURNAMENT_DATA = {
   sections: {
     rated: {
       women: [
-          { name: "Open", earlyFee: "$65", afterFee: "$85", onsiteFee: "$100" },
-          { name: "U1800", earlyFee: "$65", afterFee: "$85", onsiteFee: "$100" }
+          { name: "Open", earlyFee: "$65", afterFee: "$85", onsiteFee: "$100" }
         ],
       girls: [
           { name: "K-3", earlyFee: "$40", afterFee: "$50", onsiteFee: "$60" },
@@ -93,11 +92,6 @@ export const TOURNAMENT_DATA = {
       { place: "3rd", amount: "$500" },
       { place: "4th", amount: "$200" }
     ],
-    u1600: [
-      { place: "1st", amount: "$500" },
-      { place: "2nd", amount: "$300" },
-      { place: "3rd", amount: "$200" }
-    ],
     senior: { label: "Senior (50+)", amount: "$200" },
     unrated: "5-place trophies",
     familyFriends: "40% EF – 20% EF – 10% EF",
@@ -105,7 +99,7 @@ export const TOURNAMENT_DATA = {
     plaques: "Top adult woman & top scholastic girl",
     freeRegistration: [
       { winner: "Adult champion", prize: "U.S. Women's Open" },
-      { winner: "Senior champion", prize: "National Senior Open" },
+      { winner: "Senior champion", prize: "2026 U.S. Senior Open" },
       { winner: "Top scholastic girl", prize: "National Scholastic Girls' Championship" }
     ]
   },
@@ -175,7 +169,7 @@ export const TOURNAMENT_DATA = {
     "All participants must have a valid US Chess membership",
     "No refunds after registration closes",
     "Parents/guardians must remain on-site for scholastic players",
-    "Cell phones must be silenced during play",
+    "Cell phones must be turned off during play",
     "No photography without permission",
     "Disputes will be resolved by the Chief TD",
     "All players must follow US Chess rules of conduct"
@@ -205,7 +199,6 @@ export const NAV_ITEMS = [
 
 export const PREREGISTERED_PLAYERS = {
   womensOpen: [],
-  womensU1800: [],
   girlsK12: [],
   girlsK8: [],
   girlsK5: [],
