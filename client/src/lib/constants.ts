@@ -1,6 +1,6 @@
 export const REGISTRATION_URL: string = "https://southeastchess.org/register";
-export const PAIRINGS_SHEET_URL = "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/preview";
-export const STANDINGS_SHEET_URL = "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/preview";
+export const PAIRINGS_SHEET_URL = "https://docs.google.com/spreadsheets/d/1mQtF5qmU5dmxM4BGTbm3DKgEJy2SNO1VjmFfzxRPnN0/edit?usp=sharing";
+export const STANDINGS_SHEET_URL = "https://docs.google.com/spreadsheets/d/1ut21TJZvZxmxU3_NIGhyXlvey4-nVx3OrCfVeEKp-Gc/edit?usp=sharing";
 
 export const GRAND_PRIX_POINTS = 100;
 
