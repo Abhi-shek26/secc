@@ -88,8 +88,17 @@ function PlayerSection({ title, players }: PlayerSectionProps) {
 }
 
 export default function Players() {
+  const playersApiUrl = import.meta.env.VITE_PLAYERS_API_URL?.trim() || "/api/players?refresh=1";
+
   const { data, isLoading } = useQuery<PlayersApiResponse>({
-    queryKey: ["/api/players?refresh=1"],
+    queryKey: [playersApiUrl],
+    queryFn: async () => {
+      const response = await fetch(playersApiUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to load players: ${response.status}`);
+      }
+      return response.json();
+    },
     staleTime: 0,
     refetchOnMount: true,
   });
