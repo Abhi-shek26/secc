@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>ChessRegister - Event Registration</title>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<link rel="stylesheet" href="/assets/css/style.css" />
+<script src="https://kit.fontawesome.com/4f0cbbc932.js" crossorigin="anonymous"></script>
+
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary">
+  <div class="container-fluid">
+
+    <a class="navbar-brand" href="http://home.chessregister.com"><span class="fa-solid fa-chess" aria-hidden="true"></span> ChessRegister.com</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    
+      <ul class="navbar-nav ms-auto float-end">
+          <li class="nav-item"><a class="nav-link" href="https://www.facebook.com/ChessRegister" target="_blank"><img alt="" src="/assets/img/facebook_logo.png" style="width: 19px; height: 19px;" /></a></li>
+          <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="/signup">Create an Account</a></li>
+      </ul>
+    
+
+
+  </div><!--/.collapse -->
+
+  </div><!--/.container-fluid -->
+</nav><!--/.navbar -->
+
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-md-8">
+
+        <h4>Event Registrants <span class="fs-6 fw-light fst-italic">for SE Women and Girls Chess Championships (Open) (1)*</span></h4>
+
+          
+
+<table class="table table-condensed table-striped">
+
+
+
+    <tr class="info">
+        <th     
+                colspan="6"
+                 style="text-align:center">
+            
+            --- Open ---</th>
+    </tr>
+    <tr>
+    <th>Registrant Name</th>
+    <th>Rating</th>
+    
+
+      <th>Schedule</th>
+      <th>Byes</th>
+      
+      
+
+    </tr>
+
+
+<tr>
+<td>
+    WIM Alexey Root
+</td>
+<td><a href="https://ratings.uschess.org/player/10374651" target="_blank">2000</a></td>
+
+
+  <td style="white-space:nowrap;"> 1 day </td>
+  <td></td>
+  
+  
+
+</tr>
+
+
+</table>
+
+
+<span class="text-info">* Online registrants only. May not include entries otherwise received (mail, phone, etc.)</span>
+
+
+
+    </div>
+
+    
+    <div class="col-md-4">
+
+    <div class="card">
+        <h4 class="card-header text-center">Event Summary</h4>
+
+        <div class="card-body">
+        
+            <b>Name</b>: SE Women and Girls Chess Championships (Open)
+        
+    &nbsp;<a href="/registrants?event_key=6OeZgtjyCj6SDFjtSJPtts1V04Ucuw73-2nkGVypuPY=" data-bs-toggle="tooltip" title="Event registrants"><span class="fa-solid fa-user" aria-hidden="true"></span></a>
+        
+        
+            <br>
+        
+        
+        
+            <b>Location</b>: Atlanta Chinese Christian Church - Tucker
+            <br>
+        
+        
+            <b>Starts</b>: Saturday 09 May 2026
+            <br>
+        
+        
+            <b>Ends</b>: Saturday 09 May 2026
+            <br>
+        
+        
+            <b>Reg Ends</b>: Saturday 09 May 2026 8:30AM
+            <br>
+        
+        
+            <b>Rounds</b>: 4
+            <br>
+        
+
+        
+            <b>Organizer Name</b>:  
+                  Southeast Chess
+            <br>
+            <b>Organizer eMail</b>:  
+               
+                  <a href="mailto:southeasternfunchess@gmail.com"> southeasternfunchess@gmail.com</a>
+              
+            <br>
+        
+        </div>
+
+        
+
+    </div>
+    </div><!-- /.col-md-4 -->
+
+  </div>
+</div>
+
+    
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <script>
+        function openWin(url) {
+            window.open(url);   // Opens a new window
+        }
+
+        function inIframe () {
+            try {
+                return window.self !== window.top;
+            } catch (e) {
+                return true;
+            }
+        }
+        
+        // Don't show the navbar if displayed within an iFrame
+        if (inIframe()) {
+            $("nav.navbar").hide();
+            $("div.navbar").hide();
+        }
+    </script>
+
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+    </script>
+
+</body>
+</html>

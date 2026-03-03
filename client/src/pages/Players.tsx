@@ -1,12 +1,35 @@
 import { Layout } from "@/components/layout/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TOURNAMENT_DATA, PREREGISTERED_PLAYERS } from "@/lib/constants";
+import { useQuery } from "@tanstack/react-query";
 import { Users } from "lucide-react";
 
 interface PlayerSectionProps {
   title: string;
-  players: { name: string; rating: string }[];
+  players: {
+    section?: string;
+    name: string;
+    rating: string;
+    ratingUrl?: string;
+    schedule?: string;
+    byes?: string;
+  }[];
 }
+
+type PlayersApiResponse = {
+  source: "cache" | "live" | "stale-cache";
+  fetchedAt: string;
+  count: number;
+  players: {
+    section?: string;
+    name: string;
+    rating: string;
+    ratingUrl?: string;
+    schedule?: string;
+    byes?: string;
+  }[];
+  warning?: string;
+};
 
 function PlayerSection({ title, players }: PlayerSectionProps) {
   return (
@@ -28,13 +51,31 @@ function PlayerSection({ title, players }: PlayerSectionProps) {
                 <tr className="border-b border-border">
                   <th className="text-left py-2 px-4 font-medium text-muted-foreground">Registrant Name</th>
                   <th className="text-left py-2 px-4 font-medium text-muted-foreground">Rating</th>
+                  <th className="text-left py-2 px-4 font-medium text-muted-foreground">Schedule</th>
+                  <th className="text-left py-2 px-4 font-medium text-muted-foreground">Byes</th>
                 </tr>
               </thead>
               <tbody>
                 {players.map((player, index) => (
                   <tr key={index} className="border-b border-border/50 last:border-0" data-testid={`row-player-${index}`}>
                     <td className="py-3 px-4">{player.name}</td>
-                    <td className="py-3 px-4 text-primary">{player.rating}</td>
+                    <td className="py-3 px-4 text-primary">
+                      {player.ratingUrl ? (
+                        <a
+                          href={player.ratingUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline"
+                          data-testid={`link-rating-${index}`}
+                        >
+                          {player.rating}
+                        </a>
+                      ) : (
+                        player.rating
+                      )}
+                    </td>
+                    <td className="py-3 px-4">{player.schedule ?? "—"}</td>
+                    <td className="py-3 px-4">{player.byes ?? "—"}</td>
                   </tr>
                 ))}
               </tbody>
@@ -47,6 +88,23 @@ function PlayerSection({ title, players }: PlayerSectionProps) {
 }
 
 export default function Players() {
+  const { data, isLoading } = useQuery<PlayersApiResponse>({
+    queryKey: ["/api/players?refresh=1"],
+    staleTime: 0,
+    refetchOnMount: true,
+  });
+
+  const livePlayers = data?.players ?? [];
+  const hasLivePlayers = livePlayers.length > 0;
+  const groupedLivePlayers = livePlayers.reduce<Record<string, typeof livePlayers>>((acc, player) => {
+    const sectionName = player.section?.trim() || "Open";
+    if (!acc[sectionName]) {
+      acc[sectionName] = [];
+    }
+    acc[sectionName].push(player);
+    return acc;
+  }, {});
+
   const totalPlayers = Object.values(PREREGISTERED_PLAYERS).reduce(
     (acc, section) => acc + section.length, 
     0
@@ -67,16 +125,36 @@ export default function Players() {
           </p>
         </div>
 
-        <PlayerSection title="Women's Open" players={PREREGISTERED_PLAYERS.womensOpen} />
-        <PlayerSection title="Girls K-12" players={PREREGISTERED_PLAYERS.girlsK12} />
-        <PlayerSection title="Girls K-8" players={PREREGISTERED_PLAYERS.girlsK8} />
-        <PlayerSection title="Girls K-5" players={PREREGISTERED_PLAYERS.girlsK5} />
-        <PlayerSection title="Girls K-3" players={PREREGISTERED_PLAYERS.girlsK3} />
-        <PlayerSection title="Family & Friends" players={PREREGISTERED_PLAYERS.familyFriends} />
-        <PlayerSection title="Unrated" players={PREREGISTERED_PLAYERS.unrated} />
+        {isLoading ? (
+          <Card className="mb-6">
+            <CardContent className="py-8 text-center text-muted-foreground">
+              Loading registrants...
+            </CardContent>
+          </Card>
+        ) : hasLivePlayers ? (
+          Object.entries(groupedLivePlayers).map(([sectionName, sectionPlayers]) => (
+            <PlayerSection key={sectionName} title={sectionName} players={sectionPlayers} />
+          ))
+        ) : (
+          <>
+            <PlayerSection title="Women's Open" players={PREREGISTERED_PLAYERS.womensOpen} />
+            <PlayerSection title="Girls K-12" players={PREREGISTERED_PLAYERS.girlsK12} />
+            <PlayerSection title="Girls K-8" players={PREREGISTERED_PLAYERS.girlsK8} />
+            <PlayerSection title="Girls K-5" players={PREREGISTERED_PLAYERS.girlsK5} />
+            <PlayerSection title="Girls K-3" players={PREREGISTERED_PLAYERS.girlsK3} />
+            <PlayerSection title="Family & Friends" players={PREREGISTERED_PLAYERS.familyFriends} />
+            <PlayerSection title="Unrated" players={PREREGISTERED_PLAYERS.unrated} />
+          </>
+        )}
 
         <div className="mt-8 text-center text-muted-foreground text-sm">
-          <p>* Player list is updated regularly. Registration closes May 7, 2026.</p>
+          <p>
+            * Player list is updated regularly.
+            {hasLivePlayers ? ` Last sync: ${new Date(data?.fetchedAt ?? "").toLocaleString()}` : " Registration closes May 7, 2026."}
+          </p>
+          {!hasLivePlayers && totalPlayers === 0 ? (
+            <p className="mt-1">No local preregistered players yet.</p>
+          ) : null}
         </div>
       </div>
     </Layout>

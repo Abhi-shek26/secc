@@ -100,7 +100,7 @@ export const TOURNAMENT_DATA = {
     freeRegistration: [
       { winner: "Adult champion", prize: "U.S. Women's Open" },
       { winner: "Senior champion", prize: "2026 U.S. Senior Open" },
-      { winner: "Top scholastic girl", prize: "National Scholastic Girls' Championship" }
+      { winner: "Top scholastic girl", prize: "National Scholastic Girls' Championship 2027" }
     ]
   },
 
