@@ -88,9 +88,12 @@ function PlayerSection({ title, players }: PlayerSectionProps) {
 }
 
 export default function Players() {
-  const playersApiUrl = import.meta.env.VITE_PLAYERS_API_URL?.trim() || "/api/players?refresh=1";
+  const defaultPlayersApiUrl = import.meta.env.PROD
+    ? "/.netlify/functions/players?refresh=1"
+    : "/api/players?refresh=1";
+  const playersApiUrl = import.meta.env.VITE_PLAYERS_API_URL?.trim() || defaultPlayersApiUrl;
 
-  const { data, isLoading } = useQuery<PlayersApiResponse>({
+  const { data, isLoading, isError, error } = useQuery<PlayersApiResponse>({
     queryKey: [playersApiUrl],
     queryFn: async () => {
       const response = await fetch(playersApiUrl);
@@ -138,6 +141,13 @@ export default function Players() {
           <Card className="mb-6">
             <CardContent className="py-8 text-center text-muted-foreground">
               Loading registrants...
+            </CardContent>
+          </Card>
+        ) : isError ? (
+          <Card className="mb-6">
+            <CardContent className="py-8 text-center text-muted-foreground">
+              <p>Unable to load live registrants from API.</p>
+              <p className="mt-1 text-xs">{error instanceof Error ? error.message : "Unknown error"}</p>
             </CardContent>
           </Card>
         ) : hasLivePlayers ? (
