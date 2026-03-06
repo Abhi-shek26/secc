@@ -4,6 +4,7 @@ import { RegisterButton } from "@/components/RegisterButton";
 import { TOURNAMENT_DATA } from "@/lib/constants";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, Trophy, Users, MapPin } from "lucide-react";
+import { Link } from "wouter";
 
 import heroImage1 from "@assets/generated_images/women_playing_chess_tournament.png";
 import heroImage2 from "@assets/generated_images/women_chess_tournament_move.png";
@@ -159,6 +160,24 @@ export default function Home() {
               </CardContent>
             </Card>
           </div>
+        </div>
+      </section>
+
+      {/* ================= FEATURED RESEARCH ================= */}
+      <section className="py-12 md:py-14 px-4 bg-muted/20">
+        <div className="max-w-5xl mx-auto">
+          <Card className="shadow-sm">
+            <CardContent className="p-6 md:p-8">
+              <h2 className="text-2xl md:text-3xl font-bold mb-3">Featured Research</h2>
+              <p className="text-muted-foreground mb-4">
+                Read our latest long-form article on how chess supports cognitive development,
+                academic outcomes, and leadership growth for girls and women.
+              </p>
+              <Link href="/articles/chess-impact-girls-women" className="text-primary font-medium">
+                Read: Cognitive, Educational, and Leadership Impact of Chess on Girls and Women →
+              </Link>
+            </CardContent>
+          </Card>
         </div>
       </section>
 

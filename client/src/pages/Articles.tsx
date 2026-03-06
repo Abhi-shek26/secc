@@ -12,6 +12,16 @@ export default function Articles() {
         <div className="max-w-4xl mx-auto space-y-6">
           <Card>
             <CardHeader>
+              <CardTitle>Cognitive, Educational, and Leadership Impact of Chess on Girls and Women</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground mb-4">Historical trends, academic benefits, and practical strategies for increasing participation among girls and women.</p>
+              <Link href="/articles/chess-impact-girls-women" className="text-primary font-medium">Read the article →</Link>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
               <CardTitle>Active FIDE-Titled Women and Girls Chess Players in the US</CardTitle>
             </CardHeader>
             <CardContent>

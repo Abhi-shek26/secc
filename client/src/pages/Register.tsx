@@ -6,6 +6,7 @@ import { RegisterButton, RegistrationStatus } from "@/components/RegisterButton"
 import { Calendar, Trophy, Users, Clock, DollarSign, Info, ExternalLink } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "wouter";
 
 export default function Register() {
   const available = isRegistrationAvailable();
@@ -235,6 +236,16 @@ export default function Register() {
                 <li className="flex items-start gap-2">
                   <span className="w-2 h-2 bg-primary rounded-full flex-shrink-0 mt-2" />
                   <span>No refunds after registration closes.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-2 h-2 bg-primary rounded-full flex-shrink-0 mt-2" />
+                  <span>
+                    Learn more about the long-term value of girls chess participation in our{" "}
+                    <Link href="/articles/chess-impact-girls-women" className="text-primary font-medium">
+                      featured research article
+                    </Link>
+                    .
+                  </span>
                 </li>
               </ul>
             </CardContent>
