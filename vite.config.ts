@@ -1,9 +1,12 @@
-import { defineConfig } from "vite";
+import { defineConfig, type PluginOption } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig(async ({ mode }) => {
-  const plugins = [react()];
+  const reactPlugin = react();
+  const plugins: PluginOption[] = Array.isArray(reactPlugin)
+    ? reactPlugin
+    : [reactPlugin];
 
   // Only load Replit-specific plugins in development and on Replit
   if (mode !== "production" && process.env.REPL_ID !== undefined) {
@@ -31,7 +34,7 @@ export default defineConfig(async ({ mode }) => {
     },
     root: path.resolve(import.meta.dirname, "client"),
     build: {
-      outDir: path.resolve(import.meta.dirname, "dist"),
+      outDir: path.resolve(import.meta.dirname, "dist", "public"),
       emptyOutDir: true,
     },
     server: {

@@ -22,6 +22,16 @@ app.use(
 
 app.use(express.urlencoded({ extended: false }));
 
+app.use("/api", (_req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if (_req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+  next();
+});
+
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
     hour: "numeric",
