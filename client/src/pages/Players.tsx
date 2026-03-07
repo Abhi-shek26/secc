@@ -88,16 +88,38 @@ function PlayerSection({ title, players }: PlayerSectionProps) {
 }
 
 export default function Players() {
-  const defaultPlayersApiUrl = "/api/players?refresh=1";
-  const playersApiUrl = import.meta.env.VITE_PLAYERS_API_URL?.trim() || defaultPlayersApiUrl;
+  const configuredPlayersApiUrl = import.meta.env.VITE_PLAYERS_API_URL?.trim();
+  const computedProductionApiUrl = (() => {
+    if (!import.meta.env.PROD || typeof window === "undefined") {
+      return "/api/players?refresh=1";
+    }
+
+    const hostname = window.location.hostname;
+    if (hostname === "localhost" || hostname === "127.0.0.1") {
+      return "/api/players?refresh=1";
+    }
+
+    return `${window.location.protocol}//api.${hostname}/api/players?refresh=1`;
+  })();
+  const playersApiUrl = configuredPlayersApiUrl || computedProductionApiUrl;
 
   const { data, isLoading, isError, error } = useQuery<PlayersApiResponse>({
     queryKey: [playersApiUrl],
     queryFn: async () => {
       const response = await fetch(playersApiUrl);
+      const contentType = response.headers.get("content-type") || "";
+
       if (!response.ok) {
         throw new Error(`Failed to load players: ${response.status}`);
       }
+
+      if (!contentType.includes("application/json")) {
+        const preview = (await response.text()).slice(0, 120).replace(/\s+/g, " ");
+        throw new Error(
+          `API did not return JSON (content-type: ${contentType || "unknown"}). Preview: ${preview}`,
+        );
+      }
+
       return response.json();
     },
     staleTime: 0,
@@ -141,13 +163,6 @@ export default function Players() {
               Loading registrants...
             </CardContent>
           </Card>
-        ) : isError ? (
-          <Card className="mb-6">
-            <CardContent className="py-8 text-center text-muted-foreground">
-              <p>Unable to load live registrants from API.</p>
-              <p className="mt-1 text-xs">{error instanceof Error ? error.message : "Unknown error"}</p>
-            </CardContent>
-          </Card>
         ) : hasLivePlayers ? (
           Object.entries(groupedLivePlayers).map(([sectionName, sectionPlayers]) => (
             <PlayerSection key={sectionName} title={sectionName} players={sectionPlayers} />
@@ -163,6 +178,16 @@ export default function Players() {
             <PlayerSection title="Unrated" players={PREREGISTERED_PLAYERS.unrated} />
           </>
         )}
+
+        {isError ? (
+          <Card className="mb-6">
+            <CardContent className="py-8 text-center text-muted-foreground">
+              <p>Unable to load live registrants from API.</p>
+              <p className="mt-1 text-xs">Showing fallback list below.</p>
+              <p className="mt-1 text-xs break-all">{error instanceof Error ? error.message : "Unknown error"}</p>
+            </CardContent>
+          </Card>
+        ) : null}
 
         <div className="mt-8 text-center text-muted-foreground text-sm">
           <p>
