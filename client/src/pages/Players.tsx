@@ -1,35 +1,55 @@
 import { Layout } from "@/components/layout/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TOURNAMENT_DATA, PREREGISTERED_PLAYERS } from "@/lib/constants";
 import { useQuery } from "@tanstack/react-query";
 import { Users } from "lucide-react";
 
+type PlayerRow = {
+  section?: string;
+  name: string;
+  rating: string;
+  ratingUrl?: string;
+  schedule?: string;
+  byes?: string;
+};
+
 interface PlayerSectionProps {
   title: string;
-  players: {
-    section?: string;
-    name: string;
-    rating: string;
-    ratingUrl?: string;
-    schedule?: string;
-    byes?: string;
-  }[];
+  players: PlayerRow[];
 }
 
 type PlayersApiResponse = {
   source: "cache" | "live" | "stale-cache";
   fetchedAt: string;
   count: number;
-  players: {
-    section?: string;
-    name: string;
-    rating: string;
-    ratingUrl?: string;
-    schedule?: string;
-    byes?: string;
-  }[];
+  players: PlayerRow[];
   warning?: string;
 };
+
+type EventSection = {
+  id: string;
+  title: string;
+  players: PlayerRow[];
+};
+
+const EVENT_TITLES = [
+  "Open",
+  "Girls K-12",
+  "Girls K-8",
+  "Girls K-5",
+  "Girls K-3",
+  "Family & Friends",
+  "Unrated",
+] as const;
+
+function normalizeSection(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
+function toTabId(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
 
 function PlayerSection({ title, players }: PlayerSectionProps) {
   return (
@@ -128,7 +148,7 @@ export default function Players() {
 
   const livePlayers = data?.players ?? [];
   const hasLivePlayers = livePlayers.length > 0;
-  const groupedLivePlayers = livePlayers.reduce<Record<string, typeof livePlayers>>((acc, player) => {
+  const groupedLivePlayers = livePlayers.reduce<Record<string, PlayerRow[]>>((acc, player) => {
     const sectionName = player.section?.trim() || "Open";
     if (!acc[sectionName]) {
       acc[sectionName] = [];
@@ -136,6 +156,59 @@ export default function Players() {
     acc[sectionName].push(player);
     return acc;
   }, {});
+
+  const fallbackSections: EventSection[] = [
+    { id: toTabId("Open"), title: "Open", players: PREREGISTERED_PLAYERS.Open },
+    { id: toTabId("Girls K-12"), title: "Girls K-12", players: PREREGISTERED_PLAYERS.girlsK12 },
+    { id: toTabId("Girls K-8"), title: "Girls K-8", players: PREREGISTERED_PLAYERS.girlsK8 },
+    { id: toTabId("Girls K-5"), title: "Girls K-5", players: PREREGISTERED_PLAYERS.girlsK5 },
+    { id: toTabId("Girls K-3"), title: "Girls K-3", players: PREREGISTERED_PLAYERS.girlsK3 },
+    { id: toTabId("Family & Friends"), title: "Family & Friends", players: PREREGISTERED_PLAYERS.familyFriends },
+    { id: toTabId("Unrated"), title: "Unrated", players: PREREGISTERED_PLAYERS.unrated },
+  ];
+
+  const liveSections: EventSection[] = (() => {
+    const liveByNormalizedSection = new Map<string, { title: string; players: PlayerRow[] }>();
+
+    Object.entries(groupedLivePlayers).forEach(([title, players]) => {
+      liveByNormalizedSection.set(normalizeSection(title), { title, players });
+    });
+
+    const knownSections = EVENT_TITLES.map((title) => {
+      const normalizedTitle = normalizeSection(title);
+      const entry = liveByNormalizedSection.get(normalizedTitle);
+      return {
+        id: toTabId(title),
+        title,
+        players: entry?.players ?? [],
+      };
+    });
+
+    const knownKeys = new Set(EVENT_TITLES.map((title) => normalizeSection(title)));
+    const extraSections = Array.from(liveByNormalizedSection.entries())
+      .filter(([key]) => !knownKeys.has(key))
+      .map(([, entry]) => ({
+        id: toTabId(entry.title),
+        title: entry.title,
+        players: entry.players,
+      }));
+
+    return [...knownSections, ...extraSections];
+  })();
+
+  const sectionsToDisplay = hasLivePlayers
+    ? [...liveSections].sort((a, b) => {
+        const countDiff = b.players.length - a.players.length;
+        if (countDiff !== 0) {
+          return countDiff;
+        }
+        return a.title.localeCompare(b.title);
+      })
+    : fallbackSections;
+  const defaultTabValue =
+    sectionsToDisplay.find((section) => section.players.length > 0)?.id ||
+    sectionsToDisplay[0]?.id ||
+    "open";
 
   const totalPlayers = Object.values(PREREGISTERED_PLAYERS).reduce(
     (acc, section) => acc + section.length, 
@@ -163,20 +236,27 @@ export default function Players() {
               Loading registrants...
             </CardContent>
           </Card>
-        ) : hasLivePlayers ? (
-          Object.entries(groupedLivePlayers).map(([sectionName, sectionPlayers]) => (
-            <PlayerSection key={sectionName} title={sectionName} players={sectionPlayers} />
-          ))
         ) : (
-          <>
-            <PlayerSection title="Women's Open" players={PREREGISTERED_PLAYERS.womensOpen} />
-            <PlayerSection title="Girls K-12" players={PREREGISTERED_PLAYERS.girlsK12} />
-            <PlayerSection title="Girls K-8" players={PREREGISTERED_PLAYERS.girlsK8} />
-            <PlayerSection title="Girls K-5" players={PREREGISTERED_PLAYERS.girlsK5} />
-            <PlayerSection title="Girls K-3" players={PREREGISTERED_PLAYERS.girlsK3} />
-            <PlayerSection title="Family & Friends" players={PREREGISTERED_PLAYERS.familyFriends} />
-            <PlayerSection title="Unrated" players={PREREGISTERED_PLAYERS.unrated} />
-          </>
+          <Tabs defaultValue={defaultTabValue}>
+            <TabsList className="mb-4 h-auto w-full flex-wrap justify-start gap-2 bg-transparent p-0">
+              {sectionsToDisplay.map((section) => (
+                <TabsTrigger
+                  key={section.id}
+                  value={section.id}
+                  className="rounded-md border bg-background px-3 py-1.5"
+                  data-testid={`tab-section-${section.id}`}
+                >
+                  {section.title}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+
+            {sectionsToDisplay.map((section) => (
+              <TabsContent key={section.id} value={section.id}>
+                <PlayerSection title={section.title} players={section.players} />
+              </TabsContent>
+            ))}
+          </Tabs>
         )}
 
         {isError ? (

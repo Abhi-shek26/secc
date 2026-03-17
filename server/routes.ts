@@ -6,6 +6,7 @@ import * as cheerio from "cheerio";
 const REGISTRANTS_URL =
   "https://www.chessregister.com/registrants?event_key=6OeZgtjyCj6SDFjtSJPtts1V04Ucuw73-2nkGVypuPY%3D";
 const PLAYERS_CACHE_TTL_MS = 5 * 60 * 1000;
+const SHEET_TABS_CACHE_TTL_MS = 10 * 1000;
 
 type Registrant = {
   section: string;
@@ -17,6 +18,49 @@ type Registrant = {
 };
 
 let playersCache: { players: Registrant[]; fetchedAt: number } | null = null;
+let sheetTabsCache: Record<string, { tabs: string[]; fetchedAt: number }> = {};
+
+function extractGoogleSheetId(sheetUrl: string): string | null {
+  const match = sheetUrl.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  return match?.[1] ?? null;
+}
+
+async function fetchGoogleSheetTabs(sheetUrl: string): Promise<string[]> {
+  const sheetId = extractGoogleSheetId(sheetUrl);
+  if (!sheetId) {
+    throw new Error("Invalid Google Sheet URL");
+  }
+
+  const editUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/edit?usp=sharing`;
+  const response = await fetch(editUrl, {
+    headers: {
+      "User-Agent": "Mozilla/5.0 (compatible; Brief-Architect/1.0)",
+      Accept: "text/html",
+    },
+    signal: AbortSignal.timeout(15000),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch sheet metadata: ${response.status}`);
+  }
+
+  const html = await response.text();
+  const $ = cheerio.load(html);
+  const tabNames: string[] = [];
+  const seen = new Set<string>();
+
+  $(".docs-sheet-tab-caption").each((_, tab) => {
+    const label = $(tab).text().trim();
+    if (!label || seen.has(label)) {
+      return;
+    }
+
+    seen.add(label);
+    tabNames.push(label);
+  });
+
+  return tabNames;
+}
 
 async function fetchRegistrants(): Promise<Registrant[]> {
   const response = await fetch(REGISTRANTS_URL, {
@@ -131,6 +175,32 @@ export async function registerRoutes(
         });
       }
 
+      return res.status(500).json({ message });
+    }
+  });
+
+  app.get("/api/sheet-tabs", async (req, res) => {
+    try {
+      const sheetUrl = String(req.query.sheetUrl || "").trim();
+      const forceRefresh = req.query.refresh === "1";
+
+      if (!sheetUrl) {
+        return res.status(400).json({ message: "Missing sheetUrl query parameter" });
+      }
+
+      const cached = sheetTabsCache[sheetUrl];
+      const isFresh = cached && Date.now() - cached.fetchedAt < SHEET_TABS_CACHE_TTL_MS;
+      if (!forceRefresh && isFresh) {
+        return res.json({ source: "cache", tabs: cached.tabs, fetchedAt: new Date(cached.fetchedAt).toISOString() });
+      }
+
+      const tabs = await fetchGoogleSheetTabs(sheetUrl);
+      const fetchedAt = Date.now();
+      sheetTabsCache[sheetUrl] = { tabs, fetchedAt };
+
+      return res.json({ source: "live", tabs, fetchedAt: new Date(fetchedAt).toISOString() });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unable to discover sheet tabs";
       return res.status(500).json({ message });
     }
   });

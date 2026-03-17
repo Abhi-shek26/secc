@@ -2,17 +2,218 @@ import { Layout } from "@/components/layout/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TOURNAMENT_DATA, PAIRINGS_SHEET_URL, STANDINGS_SHEET_URL } from "@/lib/constants";
-import { getGoogleSheetDataUrl, parseGoogleSheetGvizResponse, type SheetTableData } from "@/lib/googleSheets";
+import {
+  extractSheetId,
+  getGoogleSheetDataUrl,
+  parseGoogleSheetGvizResponse,
+  type GoogleSheetTabRef,
+  type SheetTableData,
+} from "@/lib/googleSheets";
 import { useQuery } from "@tanstack/react-query";
 import { ClipboardList, Trophy } from "lucide-react";
 
+type SheetTabsApiResponse = {
+  tabs?: string[];
+};
+
+interface SheetTabData {
+  id: string;
+  value: string;
+  title: string;
+  tableData: SheetTableData;
+}
+
 interface TournamentSheetTableProps {
-  tableData?: SheetTableData;
+  tabsData?: SheetTabData[];
   isLoading: boolean;
   isError: boolean;
   errorMessage?: string;
   emptyMessage: string;
   variant: "pairings" | "standings";
+}
+
+function toTabValue(label: string, index: number): string {
+  const normalized = label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  return normalized ? `${normalized}-${index}` : `sheet-${index}`;
+}
+
+function parsePreferredSheetNames(value?: string): string[] {
+  if (!value) {
+    return [];
+  }
+
+  return value
+    .split(",")
+    .map((name) => name.trim())
+    .filter(Boolean);
+}
+
+function getSheetTabsApiCandidates(): string[] {
+  const configured = import.meta.env.VITE_SHEET_TABS_API_URL?.trim();
+  const candidates: string[] = [];
+
+  if (configured) {
+    candidates.push(configured);
+  }
+
+  if (typeof window === "undefined") {
+    return candidates;
+  }
+
+  candidates.push(`${window.location.origin}/api/sheet-tabs`);
+
+  const hostname = window.location.hostname;
+  const isLocalHost = hostname === "localhost" || hostname === "127.0.0.1";
+  if (!isLocalHost) {
+    candidates.push(`${window.location.protocol}//api.${hostname}/api/sheet-tabs`);
+  }
+
+  return Array.from(new Set(candidates));
+}
+
+function toSheetTabsApiUrl(baseOrFullUrl: string, sheetUrl: string): string | null {
+  const sheetId = extractSheetId(sheetUrl);
+  if (!sheetId) {
+    return null;
+  }
+
+  const endpoint = /\/api\/sheet-tabs(\?|$)/.test(baseOrFullUrl)
+    ? baseOrFullUrl
+    : `${baseOrFullUrl.replace(/\/$/, "")}/api/sheet-tabs`;
+
+  const url = new URL(endpoint);
+  url.searchParams.set("sheetUrl", `https://docs.google.com/spreadsheets/d/${sheetId}/edit?usp=sharing`);
+  url.searchParams.set("refresh", "1");
+  return url.toString();
+}
+
+async function fetchSheetTableData(sheetUrl: string, tab?: GoogleSheetTabRef): Promise<SheetTableData> {
+  const dataUrl = sheetUrl.includes("/gviz/tq")
+    ? (() => {
+        const url = new URL(sheetUrl);
+        if (!url.searchParams.has("tqx")) {
+          url.searchParams.set("tqx", "out:json");
+        }
+        if (tab?.gid) {
+          url.searchParams.set("gid", tab.gid);
+        } else if (tab && !tab.gid) {
+          url.searchParams.set("sheet", tab.title);
+        }
+        return url.toString();
+      })()
+    : getGoogleSheetDataUrl(sheetUrl, {
+        gid: tab?.gid,
+        sheetName: tab && !tab.gid ? tab.title : undefined,
+      });
+
+  if (!dataUrl) {
+    throw new Error("Invalid Google Sheet URL");
+  }
+
+  const response = await fetch(dataUrl);
+  if (!response.ok) {
+    throw new Error(`Failed to load sheet (${response.status})`);
+  }
+
+  const payload = await response.text();
+  return parseGoogleSheetGvizResponse(payload);
+}
+
+async function discoverSheetTabs(sheetUrl: string, preferredSheetNames: string[]): Promise<GoogleSheetTabRef[]> {
+  if (preferredSheetNames.length > 0) {
+    return preferredSheetNames.map((name, index) => ({
+      id: `preferred-${index}-${name}`,
+      title: name,
+    }));
+  }
+
+  const candidateBases = getSheetTabsApiCandidates();
+  if (candidateBases.length === 0) {
+    return [];
+  }
+
+  for (const candidateBase of candidateBases) {
+    const tabsApiUrl = toSheetTabsApiUrl(candidateBase, sheetUrl);
+    if (!tabsApiUrl) {
+      continue;
+    }
+
+    try {
+      const response = await fetch(tabsApiUrl);
+      const contentType = response.headers.get("content-type") || "";
+
+      if (!response.ok || !contentType.includes("application/json")) {
+        continue;
+      }
+
+      const payload = (await response.json()) as SheetTabsApiResponse;
+      const tabs = Array.isArray(payload.tabs) ? payload.tabs : [];
+
+      return tabs
+        .map((name, index) => {
+          const title = name.trim();
+          if (!title) {
+            return null;
+          }
+
+          return {
+            id: `live-${index}-${title}`,
+            title,
+          } satisfies GoogleSheetTabRef;
+        })
+        .filter((tab): tab is GoogleSheetTabRef => tab !== null);
+    } catch {
+      continue;
+    }
+  }
+
+  return [];
+}
+
+async function fetchMultiSheetData(sheetUrl: string, preferredSheetNames: string[]): Promise<SheetTabData[]> {
+  const discoveredTabs = await discoverSheetTabs(sheetUrl, preferredSheetNames);
+  if (discoveredTabs.length > 0) {
+    const loadedTabs = await Promise.all(
+      discoveredTabs.map(async (tab, index) => {
+        try {
+          const tableData = await fetchSheetTableData(sheetUrl, tab);
+
+          // Keep only tabs that contain at least one visible column.
+          if (tableData.headers.length === 0) {
+            return null;
+          }
+
+          return {
+            id: tab.id,
+            value: toTabValue(tab.title, index + 1),
+            title: tab.title,
+            tableData,
+          } satisfies SheetTabData;
+        } catch {
+          return null;
+        }
+      }),
+    );
+
+    const tabsWithData = loadedTabs.filter((tab): tab is SheetTabData => tab !== null);
+    if (tabsWithData.length > 0) {
+      return tabsWithData;
+    }
+  }
+
+  const fallbackData = await fetchSheetTableData(sheetUrl);
+  if (fallbackData.headers.length === 0) {
+    return [];
+  }
+
+  return [
+    {
+      id: "default-sheet",
+      value: "overview-1",
+      title: "Overview",
+      tableData: fallbackData,
+    },
+  ];
 }
 
 function normalizeHeader(header: string): string {
@@ -178,7 +379,7 @@ function StandingsTournamentTable({ tableData }: { tableData: SheetTableData }) 
 }
 
 function TournamentSheetTable({
-  tableData,
+  tabsData,
   isLoading,
   isError,
   errorMessage,
@@ -198,57 +399,73 @@ function TournamentSheetTable({
     );
   }
 
-  if (!tableData || tableData.headers.length === 0 || tableData.rows.length === 0) {
+  if (!tabsData || tabsData.length === 0) {
     return <p className="text-center py-8 text-muted-foreground">{emptyMessage}</p>;
   }
 
-  return variant === "pairings" ? (
-    <PairingsTournamentTable tableData={tableData} />
-  ) : (
-    <StandingsTournamentTable tableData={tableData} />
+  if (tabsData.length === 1) {
+    return variant === "pairings" ? (
+      <PairingsTournamentTable tableData={tabsData[0].tableData} />
+    ) : (
+      <StandingsTournamentTable tableData={tabsData[0].tableData} />
+    );
+  }
+
+  return (
+    <Tabs defaultValue={tabsData[0].value} className="w-full">
+      <TabsList className="mb-4 h-auto w-full flex-wrap justify-start gap-2 bg-transparent p-0">
+        {tabsData.map((tab) => (
+          <TabsTrigger key={tab.id} value={tab.value} className="rounded-md border bg-background px-3 py-1.5">
+            {tab.title}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+
+      {tabsData.map((tab) => (
+        <TabsContent key={tab.id} value={tab.value}>
+          {variant === "pairings" ? (
+            <PairingsTournamentTable tableData={tab.tableData} />
+          ) : (
+            <StandingsTournamentTable tableData={tab.tableData} />
+          )}
+        </TabsContent>
+      ))}
+    </Tabs>
   );
 }
 
 export default function Pairings() {
-  const pairingsDataUrl = import.meta.env.VITE_PAIRINGS_DATA_URL?.trim() || getGoogleSheetDataUrl(PAIRINGS_SHEET_URL);
-  const standingsDataUrl = import.meta.env.VITE_STANDINGS_DATA_URL?.trim() || getGoogleSheetDataUrl(STANDINGS_SHEET_URL);
+  const pairingsSheetUrl = import.meta.env.VITE_PAIRINGS_DATA_URL?.trim() || PAIRINGS_SHEET_URL;
+  const standingsSheetUrl = import.meta.env.VITE_STANDINGS_DATA_URL?.trim() || STANDINGS_SHEET_URL;
+  const preferredPairingsSheets = parsePreferredSheetNames(import.meta.env.VITE_PAIRINGS_SHEETS);
+  const preferredStandingsSheets = parsePreferredSheetNames(import.meta.env.VITE_STANDINGS_SHEETS);
 
   const {
-    data: pairingsTable,
+    data: pairingsTabs,
     isLoading: isPairingsLoading,
     isError: isPairingsError,
     error: pairingsError,
-  } = useQuery<SheetTableData>({
-    queryKey: ["pairings-sheet", pairingsDataUrl],
-    enabled: Boolean(pairingsDataUrl),
-    queryFn: async () => {
-      const response = await fetch(pairingsDataUrl as string);
-      if (!response.ok) {
-        throw new Error(`Failed to load pairings (${response.status})`);
-      }
-      const payload = await response.text();
-      return parseGoogleSheetGvizResponse(payload);
-    },
-    staleTime: 30_000,
+  } = useQuery<SheetTabData[]>({
+    queryKey: ["pairings-sheet-tabs", pairingsSheetUrl, preferredPairingsSheets.join("|")],
+    enabled: Boolean(pairingsSheetUrl),
+    queryFn: async () => fetchMultiSheetData(pairingsSheetUrl as string, preferredPairingsSheets),
+    staleTime: 10_000,
+    refetchInterval: 20_000,
+    refetchIntervalInBackground: true,
   });
 
   const {
-    data: standingsTable,
+    data: standingsTabs,
     isLoading: isStandingsLoading,
     isError: isStandingsError,
     error: standingsError,
-  } = useQuery<SheetTableData>({
-    queryKey: ["standings-sheet", standingsDataUrl],
-    enabled: Boolean(standingsDataUrl),
-    queryFn: async () => {
-      const response = await fetch(standingsDataUrl as string);
-      if (!response.ok) {
-        throw new Error(`Failed to load standings (${response.status})`);
-      }
-      const payload = await response.text();
-      return parseGoogleSheetGvizResponse(payload);
-    },
-    staleTime: 30_000,
+  } = useQuery<SheetTabData[]>({
+    queryKey: ["standings-sheet-tabs", standingsSheetUrl, preferredStandingsSheets.join("|")],
+    enabled: Boolean(standingsSheetUrl),
+    queryFn: async () => fetchMultiSheetData(standingsSheetUrl as string, preferredStandingsSheets),
+    staleTime: 10_000,
+    refetchInterval: 20_000,
+    refetchIntervalInBackground: true,
   });
 
   return (
@@ -281,10 +498,10 @@ export default function Pairings() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {pairingsDataUrl ? (
+                {pairingsSheetUrl ? (
                   <>
                     <TournamentSheetTable
-                      tableData={pairingsTable}
+                      tabsData={pairingsTabs}
                       isLoading={isPairingsLoading}
                       isError={isPairingsError}
                       errorMessage={pairingsError instanceof Error ? pairingsError.message : undefined}
@@ -335,9 +552,9 @@ export default function Pairings() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {standingsDataUrl ? (
+                {standingsSheetUrl ? (
                   <TournamentSheetTable
-                    tableData={standingsTable}
+                    tabsData={standingsTabs}
                     isLoading={isStandingsLoading}
                     isError={isStandingsError}
                     errorMessage={standingsError instanceof Error ? standingsError.message : undefined}

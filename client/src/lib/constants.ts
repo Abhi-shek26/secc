@@ -185,20 +185,20 @@ export const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Info", href: "/info" },
   { label: "Schedule", href: "/schedule" },
-  { label: "Prizes", href: "/prizes" },
-  { label: "Articles", href: "/articles" },
   { label: "Venue", href: "/venue" },
   { label: "Hotel", href: "/hotel" },
-  { label: "Policies", href: "/policies" },
-  { label: "Sponsors", href: "/sponsors" },
+  { label: "Prizes", href: "/prizes" },
   { label: "Players", href: "/players" },
   { label: "Pairings", href: "/pairings" },
+  { label: "Articles", href: "/articles" },
   { label: "Flyer", href: "/flyer" },
+  { label: "Policies", href: "/policies" },
+  { label: "Sponsors", href: "/sponsors" },
   { label: "Contact", href: "/contact" }
 ];
 
 export const PREREGISTERED_PLAYERS = {
-  womensOpen: [],
+  Open: [],
   girlsK12: [],
   girlsK8: [],
   girlsK5: [],

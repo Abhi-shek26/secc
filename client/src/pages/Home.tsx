@@ -173,6 +173,11 @@ export default function Home() {
                 Read our latest long-form article on how chess supports cognitive development,
                 academic outcomes, and leadership growth for girls and women.
               </p>
+              <Link href="/articles/demographics-females" className="text-primary font-medium">
+                Read: Changing Demographics of Females in US Chess →
+              </Link>
+              <p></p>
+              <p></p>
               <Link href="/articles/chess-impact-girls-women" className="text-primary font-medium">
                 Read: Cognitive, Educational, and Leadership Impact of Chess on Girls and Women →
               </Link>
