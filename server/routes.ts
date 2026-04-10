@@ -3,19 +3,63 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import * as cheerio from "cheerio";
 
-const REGISTRANTS_URL =
-  "https://www.chessregister.com/registrants?event_key=6OeZgtjyCj6SDFjtSJPtts1V04Ucuw73-2nkGVypuPY%3D";
+const REGISTRANTS_SOURCES = [
+  {
+    section: "Open",
+    url: "https://www.chessregister.com/registrants?event_key=6OeZgtjyCj6SDFjtSJPtts1V04Ucuw73-2nkGVypuPY%3D",
+  },
+  {
+    section: "Girls",
+    url: "https://www.chessregister.com/registrants?event_key=7GirNtG8DsjEGkmQZqlLxM1V04Ucuw73-2nkGVypuPY%3D",
+  },
+  {
+    section: "Unrated",
+    url: "https://www.chessregister.com/registrants?event_key=29LIKyXgHBd5g0o0HrhAEs1V04Ucuw73-2nkGVypuPY%3D",
+  },
+  {
+    section: "Family & Friends",
+    url: "https://www.chessregister.com/registrants?event_key=o0mSOO83WQmAOiHwHySmcc1V04Ucuw73-2nkGVypuPY%3D",
+  },
+] as const;
 const PLAYERS_CACHE_TTL_MS = 5 * 60 * 1000;
 const SHEET_TABS_CACHE_TTL_MS = 10 * 1000;
 
 type Registrant = {
   section: string;
+  subSection?: string;
   name: string;
   rating: string;
   ratingUrl?: string;
   schedule?: string;
   byes?: string;
+  team?: string;
 };
+
+function normalizeLabel(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
+function resolveSectionLabel(baseSection: string, subSection?: string): string {
+  if (normalizeLabel(baseSection) !== "girls") {
+    return baseSection;
+  }
+
+  const normalizedSubSection = normalizeLabel(subSection || "");
+  if (normalizedSubSection === "k12") {
+    return "Girls K-12";
+  }
+  if (normalizedSubSection === "k8") {
+    return "Girls K-8";
+  }
+  if (normalizedSubSection === "k5") {
+    return "Girls K-5";
+  }
+  if (normalizedSubSection === "k3") {
+    return "Girls K-3";
+  }
+
+  return baseSection;
+}
 
 let playersCache: { players: Registrant[]; fetchedAt: number } | null = null;
 let sheetTabsCache: Record<string, { tabs: string[]; fetchedAt: number }> = {};
@@ -62,8 +106,8 @@ async function fetchGoogleSheetTabs(sheetUrl: string): Promise<string[]> {
   return tabNames;
 }
 
-async function fetchRegistrants(): Promise<Registrant[]> {
-  const response = await fetch(REGISTRANTS_URL, {
+async function fetchRegistrantsFromUrl(url: string, fallbackSection: string): Promise<Registrant[]> {
+  const response = await fetch(url, {
     headers: {
       "User-Agent": "Mozilla/5.0 (compatible; Brief-Architect/1.0)",
       Accept: "text/html",
@@ -78,7 +122,8 @@ async function fetchRegistrants(): Promise<Registrant[]> {
   const html = await response.text();
   const $ = cheerio.load(html);
   const registrants: Registrant[] = [];
-  let currentSection = "Open";
+  const currentSection = fallbackSection;
+  let currentSubSection: string | undefined;
 
   $("table").each((_, table) => {
     const hasRegistrantHeader =
@@ -95,7 +140,12 @@ async function fetchRegistrants(): Promise<Registrant[]> {
         const sectionText = sectionCell.text().trim().replace(/\s+/g, " ");
 
         if (sectionText.includes("---") && sectionText.length > 0) {
-          currentSection = sectionText.replace(/^-+\s*/, "").replace(/\s*-+$/, "").trim();
+          const parsedSubSection = sectionText.replace(/^-+\s*/, "").replace(/\s*-+$/, "").trim();
+          currentSubSection =
+            parsedSubSection &&
+            normalizeLabel(parsedSubSection) !== normalizeLabel(fallbackSection)
+              ? parsedSubSection
+              : undefined;
           return;
         }
 
@@ -109,23 +159,34 @@ async function fetchRegistrants(): Promise<Registrant[]> {
         const ratingHref = columns.eq(1).find("a").attr("href");
         const schedule = columns.eq(2).text().trim().replace(/\s+/g, " ");
         const byes = columns.eq(3).text().trim().replace(/\s+/g, " ");
+        const team = columns.eq(4).text().trim().replace(/\s+/g, " ");
 
         if (!name || name === "Registrant Name") {
           return;
         }
 
         registrants.push({
-          section: currentSection,
+          section: resolveSectionLabel(currentSection, currentSubSection),
+          subSection: currentSubSection,
           name,
           rating,
           ratingUrl: ratingHref || undefined,
           schedule: schedule || undefined,
           byes: byes || undefined,
+          team: team || undefined,
         });
       });
   });
 
   return registrants;
+}
+
+async function fetchRegistrants(): Promise<Registrant[]> {
+  const registrantsBySource = await Promise.all(
+    REGISTRANTS_SOURCES.map(async ({ section, url }) => fetchRegistrantsFromUrl(url, section)),
+  );
+
+  return registrantsBySource.flat();
 }
 
 export async function registerRoutes(

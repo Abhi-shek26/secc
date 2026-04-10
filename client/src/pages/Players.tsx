@@ -4,14 +4,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TOURNAMENT_DATA, PREREGISTERED_PLAYERS } from "@/lib/constants";
 import { useQuery } from "@tanstack/react-query";
 import { Users } from "lucide-react";
+import { useEffect, useState } from "react";
 
 type PlayerRow = {
   section?: string;
+  subSection?: string;
   name: string;
   rating: string;
   ratingUrl?: string;
   schedule?: string;
   byes?: string;
+  team?: string;
 };
 
 interface PlayerSectionProps {
@@ -52,6 +55,8 @@ function toTabId(value: string): string {
 }
 
 function PlayerSection({ title, players }: PlayerSectionProps) {
+  const hasTeamColumn = players.some((player) => Boolean(player.team));
+
   return (
     <Card className="mb-6" data-testid={`card-section-${title.toLowerCase().replace(/\s+/g, '-')}`}>
       <CardHeader className="pb-3">
@@ -73,6 +78,9 @@ function PlayerSection({ title, players }: PlayerSectionProps) {
                   <th className="text-left py-2 px-4 font-medium text-muted-foreground">Rating</th>
                   <th className="text-left py-2 px-4 font-medium text-muted-foreground">Schedule</th>
                   <th className="text-left py-2 px-4 font-medium text-muted-foreground">Byes</th>
+                  {hasTeamColumn ? (
+                    <th className="text-left py-2 px-4 font-medium text-muted-foreground">Team [Avg Rating] **</th>
+                  ) : null}
                 </tr>
               </thead>
               <tbody>
@@ -96,6 +104,7 @@ function PlayerSection({ title, players }: PlayerSectionProps) {
                     </td>
                     <td className="py-3 px-4">{player.schedule ?? "—"}</td>
                     <td className="py-3 px-4">{player.byes ?? "—"}</td>
+                    {hasTeamColumn ? <td className="py-3 px-4">{player.team ?? "—"}</td> : null}
                   </tr>
                 ))}
               </tbody>
@@ -196,19 +205,22 @@ export default function Players() {
     return [...knownSections, ...extraSections];
   })();
 
-  const sectionsToDisplay = hasLivePlayers
-    ? [...liveSections].sort((a, b) => {
-        const countDiff = b.players.length - a.players.length;
-        if (countDiff !== 0) {
-          return countDiff;
-        }
-        return a.title.localeCompare(b.title);
-      })
-    : fallbackSections;
+  const sectionsToDisplay = hasLivePlayers ? liveSections : fallbackSections;
   const defaultTabValue =
     sectionsToDisplay.find((section) => section.players.length > 0)?.id ||
     sectionsToDisplay[0]?.id ||
     "open";
+  const [activeTab, setActiveTab] = useState(defaultTabValue);
+
+  useEffect(() => {
+    const tabStillExists = sectionsToDisplay.some((section) => section.id === activeTab);
+    if (!tabStillExists) {
+      setActiveTab(defaultTabValue);
+    }
+  }, [activeTab, defaultTabValue, sectionsToDisplay]);
+
+  const activeSectionTitle =
+    sectionsToDisplay.find((section) => section.id === activeTab)?.title || "Open";
 
   const totalPlayers = Object.values(PREREGISTERED_PLAYERS).reduce(
     (acc, section) => acc + section.length, 
@@ -237,13 +249,13 @@ export default function Players() {
             </CardContent>
           </Card>
         ) : (
-          <Tabs defaultValue={defaultTabValue}>
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="mb-4 h-auto w-full flex-wrap justify-start gap-2 bg-transparent p-0">
               {sectionsToDisplay.map((section) => (
                 <TabsTrigger
                   key={section.id}
                   value={section.id}
-                  className="rounded-md border bg-background px-3 py-1.5"
+                  className="rounded-md border border-border/80 bg-background px-3 py-1.5 text-muted-foreground transition-colors data-[state=active]:border-primary data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                   data-testid={`tab-section-${section.id}`}
                 >
                   {section.title}
@@ -252,7 +264,7 @@ export default function Players() {
             </TabsList>
 
             {sectionsToDisplay.map((section) => (
-              <TabsContent key={section.id} value={section.id}>
+              <TabsContent key={section.id} value={section.id} className="mt-0">
                 <PlayerSection title={section.title} players={section.players} />
               </TabsContent>
             ))}
