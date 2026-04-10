@@ -24,6 +24,7 @@ import ParentsGuide from "@/pages/articles/fewer-girls-guide";
 import UnpackingBarriers from "@/pages/articles/fewer-girls-unpacking";
 import ActiveFideWomenUsArticle from "@/pages/articles/active-fide-women-us";
 import ChessImpactGirlsWomenArticle from "@/pages/articles/chess-impact-girls-women";
+import CheckmatesYaleArticle from "@/pages/articles/checkmates-yale";
 
 function Router() {
   return (
@@ -45,6 +46,7 @@ function Router() {
       <Route path="/articles/fewer-girls-unpacking" component={UnpackingBarriers} />
       <Route path="/articles/active-fide-women-us" component={ActiveFideWomenUsArticle} />
       <Route path="/articles/chess-impact-girls-women" component={ChessImpactGirlsWomenArticle} />
+      <Route path="/articles/checkmates-yale" component={CheckmatesYaleArticle} />
       <Route path="/contact" component={Contact} />
       <Route path="/register" component={Register} />
       <Route path="/flyer" component={Flyer} />
